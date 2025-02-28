@@ -1,7 +1,7 @@
 # Movie Review Database Application
 
 - Author: Caleb Bronn
-- Last Update: 26 Feb 2025
+- Last Update: 27 Feb 2025
 
 ## Overview
 
