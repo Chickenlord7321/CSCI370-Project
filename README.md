@@ -26,3 +26,9 @@ https://app.studyraid.com/en/read/12426/401280/installing-and-configuring-asio-l
 (You can ignore the `-DCROW...` options and just run `cmake ..` if you want to build the examples and unit tests)
 
 - Finally, run `sudo make install`
+
+### Step 4: Compilation
+
+- Navigate to the "source" directory
+
+- Run `make`
