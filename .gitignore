@@ -31,3 +31,6 @@
 *.out
 *.app
 go
+
+# Everything in the build directory
+build
