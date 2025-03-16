@@ -11,6 +11,9 @@ build
 # Zip files
 *.zip
 
+# PDFs
+*.pdf
+
 # Prerequisites
 *.d
 
