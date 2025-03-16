@@ -54,7 +54,7 @@ int main() {
 	cout << "\nNow trying cpr requests\n\n";
 	string api_key = "";
 	cout << "Enter API key:\n> ";
-	getline(cin, api_key)
+	getline(cin, api_key);
 	string movie = "lord of the rings";
 	string search_endpoint = "https://api.themoviedb.org/3/search/movie";
 	string img_endpoint = "https://image.tmdb.org/t/p/original/";

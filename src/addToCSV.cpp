@@ -39,7 +39,7 @@ int main() {
 	// API stuff
 	string api_key = "";
 	cout << "Enter API key:\n> ";
-	getline(cin, api_key)
+	getline(cin, api_key);
 	const string SEARCH_ENDPOINT = "https://api.themoviedb.org/3/search/movie";
 	const string IMG_ENDPOINT = "https://image.tmdb.org/t/p/original";
 
