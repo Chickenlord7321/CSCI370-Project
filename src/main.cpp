@@ -18,8 +18,17 @@ int main()
 		auto page = crow::mustache::load("index.html");
 		// Context contains the "person" variable for our template page 
 		// and the `name` variable we get from the URL
-		crow::mustache::context ctx ({{"person", name}});
+		crow::mustache::context ctx;
+		ctx["person"] = name;
         return page.render(ctx);
+	});
+
+	// Endpoint for movie img
+	CROW_ROUTE(app, "/movie/<string>")([](string movie_img){
+		auto page = crow::mustache::load("movie.html");
+		crow::mustache::context ctx;
+		ctx["movie_img"] = movie_img;
+		return page.render(ctx);
 	});
 
 	// Set port and tell the app to run on multiple threads.
