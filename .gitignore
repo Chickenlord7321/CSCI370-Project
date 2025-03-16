@@ -1,3 +1,16 @@
+# Executables
+*.exe
+*.out
+*.app
+go*
+addToCSV
+
+# Everything in the build directory
+build
+
+# Zip files
+*.zip
+
 # Prerequisites
 *.d
 
@@ -26,11 +39,3 @@
 *.a
 *.lib
 
-# Executables
-*.exe
-*.out
-*.app
-go
-
-# Everything in the build directory
-build
