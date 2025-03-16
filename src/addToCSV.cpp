@@ -1,6 +1,7 @@
 /**
  * Author: Caleb Bronn
  * Last update: 15 Mar 2025
+ * This file allows you to add movies to the sampleMovies.csv file by searching for them with the TMDB API.
 */
 
 #include <iostream>
@@ -36,7 +37,9 @@ int get_int(string question, int max = INT_MAX) {
 
 int main() {
 	// API stuff
-	string api_key = "ad870395164b3e4a76c9da7a495fd4ee";
+	string api_key = "";
+	cout << "Enter API key:\n> ";
+	getline(cin, api_key)
 	const string SEARCH_ENDPOINT = "https://api.themoviedb.org/3/search/movie";
 	const string IMG_ENDPOINT = "https://image.tmdb.org/t/p/original";
 

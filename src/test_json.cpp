@@ -1,3 +1,9 @@
+/**
+ * Author: Caleb Bronn
+ * Last update: 15 Mar 2025
+ * This is my test file for nlohmann JSON and C++ Requests
+*/
+
 #include <iostream>
 #include <fstream>						// for writing to csv file
 	using namespace std;
@@ -46,7 +52,9 @@ int main() {
 
 	// Now trying cpr requests
 	cout << "\nNow trying cpr requests\n\n";
-	string api_key = "ad870395164b3e4a76c9da7a495fd4ee";
+	string api_key = "";
+	cout << "Enter API key:\n> ";
+	getline(cin, api_key)
 	string movie = "lord of the rings";
 	string search_endpoint = "https://api.themoviedb.org/3/search/movie";
 	string img_endpoint = "https://image.tmdb.org/t/p/original/";
