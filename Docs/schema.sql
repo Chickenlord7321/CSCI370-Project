@@ -12,7 +12,7 @@ CREATE TABLE Reviews (
 	review_text VARCHAR(4000) NOT NULL, --4,000 chars is the max length for varchar
 	your_score NUMBER(4, 2) CHECK(score <= 10.00),
 	written DATE DEFAULT TO_DATE(CURRENT_DATE, 'YYYY-MM-DD'),
-	last_update DATE					-- same as 'written' if review has never been updated
+	last_update DATE CHECK(last_update >= written)					-- same as 'written' if review has never been updated
 );
 
 CREATE TABLE Movies (
