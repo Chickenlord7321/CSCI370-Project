@@ -18,19 +18,19 @@ int main() {
 		Syntax: R"(content goes here)"
 		
 		e.g. 
-		string str1 = "Caleb\nBronn";
+		string str1 = "First\nSecond";
 		// output
-		Caleb
-		Bronn
+		First
+		Second
 		
 		string str2 = R"(Caleb\nBronn)"
 		// output
-		Caleb\nBronn
+		First\nSecond
 	*/
 
 	// Create raw string literal for json data
 	string test = R"(
-		{ "name": "Caleb", "age": 22 }
+		{ "name": "John", "age": 22 }
 	)";
 
 	// Parse the data into a json object we can use
