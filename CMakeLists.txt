@@ -1,3 +1,6 @@
+# Author: Caleb Bronn
+# Last update: 2 Apr 2025
+
 cmake_minimum_required(VERSION 3.15)
 project(myCrowApp)
 
