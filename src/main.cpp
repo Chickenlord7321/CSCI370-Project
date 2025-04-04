@@ -38,6 +38,5 @@ int main()
 	});
 
 	// Set port and tell the app to run on multiple threads.
-	// Also runs the app
 	app.port(18080).multithreaded().run();
 }

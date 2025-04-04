@@ -1,11 +1,11 @@
 # Author: Caleb Bronn
-# Last update: 2 Apr 2025
+# Last update: 4 Apr 2025
 
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.7)
 project(myCrowApp)
 
 # Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 11)
 
 set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 
@@ -13,17 +13,30 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 # Required packages
-find_package(Crow CONFIG REQUIRED)
+#find_package(Crow CONFIG REQUIRED)
+
+find_package(OpenSSL REQUIRED)
+if(OPENSSL_FOUND)
+    set(HTTPLIB_IS_USING_OPENSSL TRUE)
+endif()
 
 # Retrieve cpr
-include(FetchContent)
-FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
-                         GIT_TAG 3591f20e82338d0a21733045f59accd2d476d84f)
-FetchContent_MakeAvailable(cpr)
+#include(FetchContent)
+#FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
+#                         GIT_TAG 3591f20e82338d0a21733045f59accd2d476d84f)
+#FetchContent_MakeAvailable(cpr)
 
 # Executables
-add_executable(goCrow src/main.cpp)
-add_executable(addToCSV src/addToCSV.cpp)
+#add_executable(goCrow src/main.cpp)
+#add_executable(addToCSV src/addToCSV.cpp)
+add_executable(httpTest src/httplib_test.cpp)
 
-target_link_libraries(goCrow PUBLIC Crow::Crow)
-target_link_libraries(addToCSV PRIVATE cpr::cpr)
+#target_link_libraries(goCrow PUBLIC Crow::Crow)
+#target_link_libraries(addToCSV PRIVATE cpr::cpr)
+target_link_libraries(httpTest PUBLIC
+        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:OpenSSL::SSL>
+        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:OpenSSL::Crypto>)
+
+target_compile_definitions(httpTest PUBLIC
+        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:CPPHTTPLIB_OPENSSL_SUPPORT>
+        )
