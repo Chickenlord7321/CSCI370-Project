@@ -39,6 +39,13 @@ int main () {
 		string url = TMDB_SEARCH_URL + SEARCH_ENDPOINT + "?api_key=" + API_KEY + "&query=" + input;
 		cout << url << endl;
 		auto res = SearchClient.Get(url);
+
+		if(res) {
+			cout << "Status: " << res->status << endl;
+		}
+		else {
+			cout << "Get request failed :(\n";
+		}
 	}
 
 	return 0;

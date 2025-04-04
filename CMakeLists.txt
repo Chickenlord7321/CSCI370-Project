@@ -35,8 +35,9 @@ add_executable(httpTest src/httplib_test.cpp)
 #target_link_libraries(addToCSV PRIVATE cpr::cpr)
 target_link_libraries(httpTest PUBLIC
         $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:OpenSSL::SSL>
-        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:OpenSSL::Crypto>)
+        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:OpenSSL::Crypto>
+)
 
 target_compile_definitions(httpTest PUBLIC
         $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:CPPHTTPLIB_OPENSSL_SUPPORT>
-        )
+)
