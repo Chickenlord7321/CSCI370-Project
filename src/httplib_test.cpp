@@ -1,9 +1,9 @@
 //! Header comment
 
 // Enable HTTPS support
-#ifndef CPPHTTPLIB_OPENSSL_SUPPORT
-	#define CPPHTTPLIB_OPENSSL_SUPPORT
-#endif
+// #ifndef CPPHTTPLIB_OPENSSL_SUPPORT
+// 	#define CPPHTTPLIB_OPENSSL_SUPPORT
+// #endif
 
 #include "../include/httplib.h"		// library for HTTPS requests
 #include <iostream>
@@ -15,9 +15,9 @@
 int main () {
 	// API stuff
 	const string API_KEY = "ad870395164b3e4a76c9da7a495fd4ee";
-	const string TMDB_SEARCH_URL = "https://api.themoviedb.org";
+	const string TMDB_SEARCH_URL = "http://api.themoviedb.org";
 	const string SEARCH_ENDPOINT = "/3/search/movie";
-	const string TMDB_IMG_URL = "https://image.tmdb.org";
+	const string TMDB_IMG_URL = "http://image.tmdb.org";
 	const string IMG_ENDPOINT = "/t/p/original";
 	
 	// HTTP server for requests

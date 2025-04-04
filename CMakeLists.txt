@@ -41,5 +41,5 @@ add_executable(httpTest src/httplib_test.cpp)
 #target_compile_definitions(httpTest PUBLIC
 #        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:CPPHTTPLIB_OPENSSL_SUPPORT>
 #)
-target_link_libraries(httpTest "/usr/lib/x86_64-linux-gnu/libssl.so.1.1")
-target_link_libraries(httpTest "/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1")
+#target_link_libraries(httpTest "/usr/lib/x86_64-linux-gnu/libssl.so.1.1")
+#target_link_libraries(httpTest "/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1")
