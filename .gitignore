@@ -4,6 +4,7 @@
 *.app
 go*
 addToCSV
+httpTest
 
 # Everything in the build directory
 build
