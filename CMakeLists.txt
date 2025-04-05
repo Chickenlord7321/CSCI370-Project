@@ -31,8 +31,13 @@ endif()
 #add_executable(addToCSV src/addToCSV.cpp)
 add_executable(httpTest src/httplib_test.cpp)
 
+# Link crow library
 #target_link_libraries(goCrow PUBLIC Crow::Crow)
+
+# Link C++ Requests Library
 #target_link_libraries(addToCSV PRIVATE cpr::cpr)
+
+# Link OpenSSL and Crypto for HTTPS
 #target_link_libraries(httpTest PUBLIC
 #        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:OpenSSL::SSL>
 #        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:OpenSSL::Crypto>
@@ -41,5 +46,7 @@ add_executable(httpTest src/httplib_test.cpp)
 #target_compile_definitions(httpTest PUBLIC
 #        $<$<BOOL:${HTTPLIB_IS_USING_OPENSSL}>:CPPHTTPLIB_OPENSSL_SUPPORT>
 #)
+
+# Link SSL and Crypto for HTTPS
 #target_link_libraries(httpTest "/usr/lib/x86_64-linux-gnu/libssl.so.1.1")
 #target_link_libraries(httpTest "/usr/lib/x86_64-linux-gnu/libcrypto.so.1.1")

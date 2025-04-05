@@ -9,6 +9,9 @@ httpTest
 # Everything in the build directory
 build
 
+# Env files
+*.env
+
 # Zip files
 *.zip
 

@@ -36,10 +36,10 @@ int get_int(string question, int max = INT_MAX) {
 
 
 int main() {
-	// API stuff
-	string api_key = "";
-	cout << "Enter API key:\n> ";
-	getline(cin, api_key);
+	// Read in API key from .env
+	ifstream env_file(".env");
+	string API_KEY;
+	getline(env_file, API_KEY);
 	const string SEARCH_ENDPOINT = "https://api.themoviedb.org/3/search/movie";
 	const string IMG_ENDPOINT = "https://image.tmdb.org/t/p/original";
 
@@ -62,7 +62,7 @@ int main() {
 		// Make HTTP request
 		cpr::Response resp = cpr::Get(cpr::Url{SEARCH_ENDPOINT}, 
 			cpr::Parameters{
-				{"api_key", api_key}, 
+				{"api_key", API_KEY}, 
 				{"query", input}
 		});
 		json data = json::parse(resp.text);

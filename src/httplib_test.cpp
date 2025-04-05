@@ -7,14 +7,18 @@
 
 #include "../include/httplib.h"		// library for HTTPS requests
 #include <iostream>
-#include <fstream>						// for writing to csv file
+#include <fstream>						// for writing to/reading from files
 	using namespace std;
 #include "../include/nlohmann/json.hpp"	// for JSON conversion
 	using json = nlohmann::json;		// Alias for nlohmann::json class
 
 int main () {
-	// API stuff
-	const string API_KEY = "ad870395164b3e4a76c9da7a495fd4ee";
+	// Read in API key from .env
+	ifstream env_file(".env");
+	string API_KEY;
+	getline(env_file, API_KEY);
+
+	// API endpoints
 	const string TMDB_SEARCH_URL = "http://api.themoviedb.org";
 	const string SEARCH_ENDPOINT = "/3/search/movie";
 	const string TMDB_IMG_URL = "http://image.tmdb.org";
@@ -36,7 +40,7 @@ int main () {
 			break;
 		}
 		// Make HTTP request
-		string url = TMDB_SEARCH_URL + SEARCH_ENDPOINT + "?api_key=" + API_KEY + "&query=" + input;
+		string url = TMDB_SEARCH_URL + SEARCH_ENDPOINT + "?api_key=" + API_KEY + "&query='" + input + "'";
 		cout << url << endl;
 		auto res = SearchClient.Get(url);
 
@@ -47,6 +51,8 @@ int main () {
 			cout << "Get request failed :(\n";
 		}
 	}
+
+	env_file.close();
 
 	return 0;
 }
