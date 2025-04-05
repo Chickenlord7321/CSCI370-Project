@@ -7,7 +7,8 @@ project(myCrowApp)
 # Set C++ standard
 set(CMAKE_CXX_STANDARD 11)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -v")
+set(CMAKE_EXE_LINKER_FLAGS "-o2")
 
 # Changes the default executable directory to the root directory, rather than build/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR})
