@@ -8,14 +8,14 @@ go: main.o
 	$(GXX) -o ../go main.o app.o server.o
 	@echo "Ready to go!"
 
-main.o: main.cpp
-	$(GXX) -c $(CFLAGS) main.cpp main.o
+main.o: main.cpp app.o server.o
+	$(GXX) -c $(CFLAGS) main.cpp -o main.o
 
 app.o: app.cpp server.o
-	$(GXX) -c $(CFLAGS) app.cpp app.o
+	$(GXX) -c $(CFLAGS) app.cpp -o app.o
 
 server.o: server.cpp
-	$(GXX) -c $(CFLAGS) server.cpp server.o
+	$(GXX) -c $(CFLAGS) server.cpp -o server.o
 
 clean:
 	rm -f *.o go*

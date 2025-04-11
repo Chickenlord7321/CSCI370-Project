@@ -5,7 +5,7 @@
  * Class: CSCI 370
  */
 
-#include "server.hpp"
+#include "../include/server.hpp"
 
 // Constructor
 Server::Server() {
