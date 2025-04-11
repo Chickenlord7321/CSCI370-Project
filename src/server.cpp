@@ -13,10 +13,10 @@ Server::Server() {
 	conn = nullptr;
 
 	// Init queries
-	sql = "";
+	get_user_id_sql = "SELECT user_id FROM Users WHERE username = :u AND password = :p";
 
 	// Set statements to null
-	query = nullptr;
+	get_user_id_query = nullptr;
 }
 
 // Destructor
@@ -24,7 +24,8 @@ Server::~Server() {
 	// Terminate connection only if it's not null
 	// We do this in case the try-catch fails to establish a connection in the constructor.
 	if (conn) {
-		conn->terminateStatement(query);
+		// ! Terminate statements
+		conn->terminateStatement(get_user_id_query);
 		env->terminateConnection(conn);
 	}
 	Environment::terminateEnvironment(env);
@@ -35,14 +36,24 @@ bool Server::connect(const string username, const string password) {
 	env = Environment::createEnvironment();
 	try {
 		conn = env->createConnection(username, password, DB_ADDRESS);
-		cout << "\nSuccessfully connected to the database!\n\n";
 
-		// Create statements for each member function
-		query = conn->createStatement(sql);
+		//! Create statements for each member function
+		get_user_id_query = conn->createStatement(get_user_id_sql);
 		return true;	// successful connection
 	} catch (SQLException & error) {
 		cout << error.what();
 		cout << "\nUsername or Password was incorrect, could not connect\n\n";
 		return false;	// unsuccessful connection
+	}
+}
+
+string get_user_id(const string username, const string password) const{
+	get_user_id_query->setString(1, username);
+	get_user_id_query->setString(2, password);
+	ResultSet* result = get_user_id_query->executeQuery();
+	if (result->next()) {
+		return result->getString(1);
+	} else {
+		throw ServerException("get_user_id", "user not in DB");
 	}
 }

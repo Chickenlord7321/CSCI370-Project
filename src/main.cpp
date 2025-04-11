@@ -88,7 +88,7 @@ int main () {
 		
 		if (command == "1") {			// login
 			while(!app.login()) {
-				cout << "Login failed\n";
+				cout << "Login failed. Please try again\n";
 			};
 		}
 		else if (command == "2") {		// logout

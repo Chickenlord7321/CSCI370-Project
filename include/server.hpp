@@ -16,6 +16,51 @@
 #include <unordered_map>
 	using namespace std;
 
+
+/**
+ * ServerException is a very simple exception class that is thrown 
+ * when something goes wrong in the Heap. All the implementation
+ * for this class is done inline.
+ */
+class ServerException {
+private:
+	string location;
+	string message;
+	
+public:
+
+	/**
+ 	* Creates a ServerException object.
+ 	* @param where_thrown The origin of the member function that threw the exception.
+ 	* @param msg An indication of what the problem was that triggered the exception.
+ 	*/
+	ServerException(const string& where_thrown, const string& msg) {
+		location = where_thrown;
+		message = msg;
+	}
+
+	/** 
+	 * Provides a string version of the ServerException object.
+	 * @return A debug message providing you with the location and a description of the 
+	 * problem.
+ 	*/
+	string to_string() const {
+		return "*** ServerException in "+ location + ": "+ message;
+	}
+
+	/**
+ 	* Allows for a direct stream of the error message using the << operator.
+ 	* @param out The ostream object.
+ 	* @param he The ServerException to pass into the output stream.
+ 	* @return The ostream object that will print the debug info to the console.
+ 	*/
+ 	friend ostream& operator << (ostream& out, const ServerException& e) {
+ 		out << e.to_string();
+		return out;
+	}
+}; // end of ServerException
+
+
 /**
  * This Server class connects to the CSCI Oracle database and allows
  * users to place orders and unsubscribe from the Food Sharing program.
@@ -30,8 +75,8 @@ private:
 	// Location of the Oracle database on CSCI servers
 	const string DB_ADDRESS = "sunfire.csci.viu.ca";
 
-	// Queries
-	string sql;
+	// SQL Queries
+	string get_user_id_sql;
 
 	// Query statements
 	Statement* query;
@@ -51,6 +96,8 @@ public:
 	 * @param password Your Oracle password
 	 */
 	bool connect(const string username, const string password);
+
+	string get_user_id(const string username, const string password) const;
 
 	void add_user(const string username, const string password);
 

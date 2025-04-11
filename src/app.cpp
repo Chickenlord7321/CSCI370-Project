@@ -23,11 +23,26 @@ void MovieReviewApp::get_credentials() {
 
 		connected = svr->connect(username, password);
 	} while (!connected);
+	cout << "Credentials verified!\n";
 }
 
 // bool MovieReviewApp::signUp();
 
 bool MovieReviewApp::login() {
-	cout << "Login here please";
+	try {
+		string username;
+		string password;
+		cout << "Enter your username:\n> ";
+		getline(cin, username);
+		password = string(getpass("Enter your password:\n> "););
+		curr_user = svr->get_user_id(username, password);
+	} catch (ServerException& error) {
+		cout << "Sorry, it seems that username is not correct.\n";
+		return false;
+	}
 	return true;
 };
+
+void MovieReviewApp::logout() {
+	curr_user = "";
+}
