@@ -34,7 +34,7 @@ bool MovieReviewApp::login() {
 		string password;
 		cout << "Enter your username:\n> ";
 		getline(cin, username);
-		password = string(getpass("Enter your password:\n> "););
+		password = string(getpass("Enter your password:\n> "));
 		curr_user = svr->get_user_id(username, password);
 	} catch (ServerException& error) {
 		cout << "Sorry, it seems that username is not correct.\n";
