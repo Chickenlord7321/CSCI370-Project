@@ -79,7 +79,7 @@ private:
 	string get_user_id_sql;
 
 	// Query statements
-	Statement* query;
+	Statement* get_user_id_query;
 
 	// Helper
 	bool user_in_db(string username);

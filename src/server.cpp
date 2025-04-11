@@ -47,7 +47,7 @@ bool Server::connect(const string username, const string password) {
 	}
 }
 
-string get_user_id(const string username, const string password) const{
+string Server::get_user_id(const string username, const string password) const {
 	get_user_id_query->setString(1, username);
 	get_user_id_query->setString(2, password);
 	ResultSet* result = get_user_id_query->executeQuery();
