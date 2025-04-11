@@ -8,7 +8,7 @@ MovieReviewApp::~MovieReviewApp() {
 	delete svr;
 }
 
-MovieReviewApp::get_credentials() {
+void MovieReviewApp::get_credentials() {
 	cout << "First, we will need you to enter your Oracle Database credentials.\n";
 	bool connected;
 	do {
