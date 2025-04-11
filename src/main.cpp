@@ -34,6 +34,7 @@
 			* TODO: sort by date written
 			* TODO: written by you
 			* TODO: having minimum/maximum stars
+			* TODO: by movie
 		* TODO: look up movies in database	
 			* TODO: all (no order)
 			* TODO: recently released
@@ -84,30 +85,37 @@ int main () {
 
 		string username;
 		string password;
-		switch (command) {
-			case "1":		// login
-				while(!app.login());
-				break;
-			case "2":		// logout
-				break;
-			case "3":		// sign up
-				break;
-			case "4":		// write review
-				break;
-			case "5":		// update review
-				break;
-			case "6":		// look up reviews
-				break;
-			case "7":		// look up movies
-				break;
-			case "q":		// terminate program
-				break;
-			default:		// invalid command
-				cout << "\nSorry, that was not a valid command.\n";
-				break;
-		}
 		
-	}
+		if (command == "1") {			// login
+			while(!app.login()) {
+				cout << "Login failed\n";
+			};
+		}
+		else if (command == "2") {		// logout
+			cout << "logout\n";
+		}
+		else if (command == "3") {		// sign up
+			cout << "sign up\n";
+		}
+		else if (command == "4") {		// write review
+			cout << "write a review\n";
+		}
+		else if (command == "5") {		// update review
+			cout << "update a review\n";
+		}
+		else if (command == "6") {		// look up reviews
+			cout << "look up reviews\n";
+		}
+		else if (command == "7") {		// look up movies
+			cout << "look up movies\n";
+		}
+		else if (command == "q") {		// terminate program
+			cout << "Goodbye!\n";
+		} 
+		else {
+			cout << "\nSorry, that was not a valid command.\n";
+		}
+	}	// end while
 
 	return 0;
 }
