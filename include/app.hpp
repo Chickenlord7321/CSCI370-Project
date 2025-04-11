@@ -20,6 +20,7 @@
 class MovieReviewApp {
 private:
 	Server* svr;
+	string curr_user;
 
 public:
 	// Constuctor
@@ -32,14 +33,16 @@ public:
 	void get_credentials();
 
 	// Sign up
-	bool signUp(string username, string password);
+	bool signUp();
 
 	// Login
-	bool login(string username, string password);
+	bool login();
 
-	void write_review(string username);
+	void logout();
 
-	void update_review(string username);
+	void write_review();
+
+	void update_review();
 
 	void look_up_reviews();
 

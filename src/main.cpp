@@ -25,14 +25,14 @@
 
 		* Commands:
 		* TODO: login
+		* TODO: logout
 		* TODO: sign up
 		* TODO: write a review
 		* TODO: update a review
-		* TODO: view your reviews
 		* TODO: look up reviews in database
 			* TODO: all (no order)
 			* TODO: sort by date written
-			* TODO: written by specific username
+			* TODO: written by you
 			* TODO: having minimum/maximum stars
 		* TODO: look up movies in database	
 			* TODO: all (no order)
@@ -45,9 +45,69 @@
 */
 
 #include "../include/app.hpp"
+#include <ctype.h>		// for toupper() and tolower()
+
+// Convert string to lowercase
+void to_lower(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		s[i] = tolower(s[i]);
+	}
+}
+
+// Convert string to uppercase
+void to_upper(string& s) {
+	for (int i = 0; i < s.length(); i++) {
+		s[i] = toupper(s[i]);
+	}
+}
 
 int main () {
+	// ! intro goes here
+
 	MovieReviewApp app;
 	app.get_credentials();
+
+	string command;
+	while (command != "q") {
+		cout << "Select one of the following commands by number.\n"
+			<< "Or, type 'Q' to quit:\n"
+			<< "1:\tlogin\n"
+			<< "2:\tlogout\n"
+			<< "3:\tsign up\n"
+			<< "4:\twrite a review\n"
+			<< "5:\tupdate a review\n"
+			<< "6:\tlook up reviews\n"
+			<< "7:\tlook up movies\n";
+		cout << "> ";
+		getline(cin, command);
+		to_lower(command);
+
+		string username;
+		string password;
+		switch (command) {
+			case "1":		// login
+				while(!app.login());
+				break;
+			case "2":		// logout
+				break;
+			case "3":		// sign up
+				break;
+			case "4":		// write review
+				break;
+			case "5":		// update review
+				break;
+			case "6":		// look up reviews
+				break;
+			case "7":		// look up movies
+				break;
+			case "q":		// terminate program
+				break;
+			default:		// invalid command
+				cout << "\nSorry, that was not a valid command.\n";
+				break;
+		}
+		
+	}
+
 	return 0;
 }

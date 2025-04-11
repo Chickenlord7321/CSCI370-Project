@@ -12,6 +12,8 @@
 	using namespace oracle::occi;
 #include <iostream>
 #include <string>
+#include <bits/stdc++.h>	// for vector
+#include <unordered_map>
 	using namespace std;
 
 /**
@@ -34,6 +36,9 @@ private:
 	// Query statements
 	Statement* query;
 
+	// Helper
+	bool user_in_db(string username);
+
 public:
 	// Constructor
 	Server();
@@ -47,14 +52,15 @@ public:
 	 */
 	bool connect(const string username, const string password);
 
-	// Helper
-	bool user_in_db(string username);
+	void add_user(const string username, const string password);
 
-	void add_review(string review);
+	void add_review(const string review);
 
-	void update_review(string review);
+	void update_review(const string review);
 
-	
+	vector<unordered_map<string, string>> list_reviews_by_rating(const string op, const double rating, const string sort="ASC");
+
+	vector<unordered_map<string, string>> list_movies_by_rating(const string op, const double rating, const string sort="ASC");
 };
 
 #endif

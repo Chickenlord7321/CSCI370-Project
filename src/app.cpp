@@ -9,7 +9,7 @@ MovieReviewApp::~MovieReviewApp() {
 }
 
 void MovieReviewApp::get_credentials() {
-	cout << "First, we will need you to enter your Oracle Database credentials.\n";
+	cout << "First, you will need to enter your Oracle Database credentials.\n";
 	bool connected;
 	do {
 		// Prompt for username
@@ -24,3 +24,7 @@ void MovieReviewApp::get_credentials() {
 		connected = svr->connect(username, password);
 	} while (!connected);
 }
+
+// bool MovieReviewApp::signUp();
+
+// bool MovieReviewApp::login();
