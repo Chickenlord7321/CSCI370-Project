@@ -1,30 +1,21 @@
 # Author: Caleb Bronn
-# Last Update: 6 Apr 2025
-# This makefile is for testing httplib_test.cpp
-# It's intended to be an alternative way to compile the code in order to see what is going wrong with it.
+# Last Update: 10 Apr 2025
 
-GXX = g++
-CFLAGS = -Wall -Wextra -v
-CROWFLAGS = -lpthread
+GXX = g++ -std=c++11
+CFLAGS = -Wall -Wextra
 
-goTest: test.o
-	$(GXX) -o goHttp test.o
+go: main.o
+	$(GXX) -o ../go main.o app.o server.o
+	@echo "Ready to go!"
 
-test.o: httplib_test.cpp http.o json.o
-	$(GXX) -c $(CFLAGS) httplib_test.cpp -o test.o
+main.o: main.cpp
+	$(GXX) -c $(CFLAGS) main.cpp main.o
 
-json.o: ../include/nlohmann/json.hpp
-	$(GXX) -c $(CFLAGS) ../include/nlohmann/json.hpp -o json.o
+app.o: app.cpp server.o
+	$(GXX) -c $(CFLAGS) app.cpp app.o
 
-http.o: ../include/httplib.h
-	$(GXX) -c $(CFLAGS) ../include/httplib.h -o http.o
-
-#go: main.o
-#	$(GXX) -o go main.o
-#	@echo "Ready to go!"
-
-#main.o: main.cpp
-#	$(GXX) -c $(CFLAGS) $(CROWFLAGS) main.cpp main.o
+server.o: server.cpp
+	$(GXX) -c $(CFLAGS) server.cpp server.o
 
 clean:
 	rm -f *.o go*

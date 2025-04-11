@@ -1,0 +1,26 @@
+#include "../include/app.hpp"
+
+MovieReviewApp::MovieReviewApp() {
+	svr = new Server();
+}
+
+MovieReviewApp::~MovieReviewApp() {
+	delete svr;
+}
+
+MovieReviewApp::get_credentials() {
+	cout << "First, we will need you to enter your Oracle Database credentials.\n";
+	bool connected;
+	do {
+		// Prompt for username
+		cout << "Enter Oracle username: ";
+		string username;
+		getline(cin, username);
+
+		// Prompt for password
+		char* passwd_char = getpass("Enter Oracle password: ");
+		string password(passwd_char);
+
+		connected = svr->connect(username, password);
+	} while (!connected);
+}
