@@ -27,4 +27,7 @@ void MovieReviewApp::get_credentials() {
 
 // bool MovieReviewApp::signUp();
 
-// bool MovieReviewApp::login();
+bool MovieReviewApp::login() {
+	cout << "Login here please";
+	return true;
+};
