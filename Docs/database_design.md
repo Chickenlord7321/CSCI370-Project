@@ -67,7 +67,7 @@ CREATE TABLE Movies (
 
 | Column | Data Type | Purpose |
 |:-:|:-:|:-:|
-| review_id | 10-digit number | Uniquely identifies the review |
+| review_id | 9-digit number | Uniquely identifies the review |
 | user_id | 6-digit number | Identifies the user who wrote the review |
 | movie_id | integer | Identifies the movie the review is for |
 | review_text | string | Review text submitted by user |

@@ -19,7 +19,7 @@ FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
 FetchContent_MakeAvailable(cpr)
 
 # Executables
-add_executable(addToCSV src/addToCSV.cpp)
+add_executable(addMovies src/addMovies.cpp)
 
 # Link C++ Requests Library
-target_link_libraries(addToCSV PRIVATE cpr::cpr)
+target_link_libraries(addMovies PRIVATE cpr::cpr)

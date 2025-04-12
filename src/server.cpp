@@ -26,12 +26,10 @@ Server::~Server() {
 	// Terminate connection only if it's not null
 	// We do this in case the try-catch in connect() fails to establish a connection
 	if (conn) {
-		cout << "Terminating conn\n";
 		// ! Terminate statements
 		conn->terminateStatement(get_user_id_query);
 		env->terminateConnection(conn);
 	}
-	cout << "Terminating env\n";
 	Environment::terminateEnvironment(env);
 }
 

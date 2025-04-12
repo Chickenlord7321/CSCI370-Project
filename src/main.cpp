@@ -24,8 +24,8 @@
 			* On top of that, not everyone has a markdown extension.
 
 		* Commands:
-		* TODO: login
-		* TODO: logout
+		* //TODO: login
+		* //TODO: logout
 		* TODO: sign up
 		* TODO: write a review
 		* TODO: update a review

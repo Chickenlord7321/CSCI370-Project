@@ -3,8 +3,7 @@
 *.out
 *.app
 go*
-addToCSV
-httpTest
+add*
 
 # Everything in the build directory
 build
