@@ -119,19 +119,19 @@ bool Server::signup_successful(const string username, const string password) {
 	} 
 	else {
 		// Validate username: letters, numbers, any of !@#$%^&*_, and between 1 and 30 chars long
-		regex username_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,30}");
-		if (!regex_match(username, username_format)) {
-			cout << "Your username is too long, or contains characters that are not acceptable. "
-				<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-			return false;
-		}
-		// Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
-		regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
-		if (!regex_match(password, password_format)) {
-			cout << "Your password is too long, or contains characters that are not acceptable. "
-				<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-			return false;
-		}
+		// regex username_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,30}");
+		// if (!regex_match(username, username_format)) {
+		// 	cout << "Your username is too long, or contains characters that are not acceptable. "
+		// 		<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
+		// 	return false;
+		// }
+		// // Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
+		// regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
+		// if (!regex_match(password, password_format)) {
+		// 	cout << "Your password is too long, or contains characters that are not acceptable. "
+		// 		<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
+		// 	return false;
+		// }
 		// If username + password passes checks, insert new user into database
 		signup_query->setInt(1, next_user_id);
 		signup_query->setString(2, username);
