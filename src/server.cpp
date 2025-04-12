@@ -20,8 +20,8 @@ Server::Server() {
 
 	// Init queries
 	get_user_id_sql = "SELECT user_id FROM Users WHERE username = :u AND password = :p";
-	signup_sql = "INSERT INTO Users VALUES (" 
-				" ':id',"
+	signup_sql = "INSERT INTO Users VALUES(" 
+				" :id,"
 				" :uname,"
 				" :psswd,"
 				" CURRENT_DATE"
