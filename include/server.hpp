@@ -75,6 +75,8 @@ private:
 	// Location of the Oracle database on CSCI servers
 	const string DB_ADDRESS = "sunfire.csci.viu.ca";
 
+	string curr_user;	// stores user ID of current logged-in user
+
 	// SQL Queries
 	string get_user_id_sql;
 
@@ -97,7 +99,7 @@ public:
 	 */
 	bool connect(const string username, const string password);
 
-	string get_user_id(const string username, const string password) const;
+	bool login_successful(const string username, const string password);
 
 	void add_user(const string username, const string password);
 
