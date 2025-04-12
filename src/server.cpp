@@ -126,6 +126,7 @@ bool Server::signup_successful(const string username, const string password) {
 				<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
 			return false;
 		}
+		//! Uncomment when project complete 
 		// Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
 		// std::regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
 		// if (!std::regex_match(password, password_format)) {
