@@ -99,7 +99,11 @@ public:
 	 */
 	bool connect(const string username, const string password);
 
+	void disconnect();
+
 	bool login_successful(const string username, const string password);
+
+	void logout();
 
 	void add_user(const string username, const string password);
 

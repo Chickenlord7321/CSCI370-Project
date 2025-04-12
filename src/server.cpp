@@ -23,15 +23,12 @@ Server::Server() {
 
 // Destructor
 Server::~Server() {
-	// Terminate connection only if it's not null
-	// We do this in case the try-catch fails to establish a connection in the constructor.
-	if (conn) {
-		// ! Terminate statements
-		conn->terminateStatement(get_user_id_query);
-		env->terminateConnection(conn);
+	// In case program quits abruptly and disconnect() was not called
+	if (env) {
+		disconnect();
 	}
-	Environment::terminateEnvironment(env);
 }
+
 
 // Connect to the server
 bool Server::connect(const string username, const string password) {
@@ -49,6 +46,19 @@ bool Server::connect(const string username, const string password) {
 	}
 }
 
+
+void Server::disconnect() {
+	// Terminate connection only if it's not null
+	// We do this in case the try-catch in connect() fails to establish a connection
+	if (conn) {
+		// ! Terminate statements
+		conn->terminateStatement(get_user_id_query);
+		env->terminateConnection(conn);
+	}
+	Environment::terminateEnvironment(env);
+}
+
+
 bool Server::login_successful(const string username, const string password) {
 	get_user_id_query->setString(1, username);
 	get_user_id_query->setString(2, password);
@@ -56,9 +66,16 @@ bool Server::login_successful(const string username, const string password) {
 	if (result->next()) {
 		curr_user = result->getString(1);
 		get_user_id_query->closeResultSet(result);
+		cout << "Login successful!\n";
 		return true;
 	} else {
 		get_user_id_query->closeResultSet(result);
+		cout << "Sorry, the username or password was incorrect.\n";
 		return false;
 	}
+}
+
+
+void Server::logout() {
+	curr_user = "";
 }
