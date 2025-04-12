@@ -14,8 +14,7 @@
  *	# Server 
 		* connects to Oracle and does all the SQL stuff
 		* Contains pre-written SQL statements that can be added onto/filled out.
- *	# App 
-		* Gives user options for using the application:
+		* Gives user options for using the application
 		* Features:
 			*? Writes results to html file? 
 			* Only problem is they're not directly accessible from Otter. 
@@ -43,6 +42,7 @@
 			* TODO: have no reviews
  *	# Main 
 		* Provides access to the app
+		* Manages user input
 */
 
 #include "../include/server.hpp"
@@ -129,17 +129,32 @@ int main () {
 		if (command == "1") {			// login
 			string username;
 			string password;
+			bool logged_in;
 			do {
 				username = input_str("Enter your username: ");
 				password = input_password("Enter your password: ");
-			} while (!svr.login_successful(username, password));
+				logged_in = svr.login_successful(username, password);
+				if (logged_in) {
+					cout << "\nLogin successful!\n";
+				} 
+				else { 
+					cout << "Sorry, the username or password was incorrect.\n"; 
+				}
+			} while (!logged_in);
 		}
 		else if (command == "2") {		// logout
 			svr.logout();
-			cout << "Logout successful!\n";
+			cout << "\nLogout successful!\n";
 		}
 		else if (command == "3") {		// sign up
-			cout << "sign up\n";
+			string username;
+			string password;
+			bool signed_up;
+			do {
+				username = input_str("Choose a username: ");
+				password = input_password("Choose a password: ");
+			} while (!svr.signup_successful(username, password));
+			cout << "\nYou've been successfully signed up, " << username << "!\n";
 		}
 		else if (command == "4") {		// write review
 			cout << "write a review\n";

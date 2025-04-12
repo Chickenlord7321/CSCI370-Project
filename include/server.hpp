@@ -81,9 +81,11 @@ private:
 
 	// SQL Queries
 	string get_user_id_sql;
+	string signup_sql;
 
 	// Query statements
 	Statement* get_user_id_query;
+	Statement* signup_query;
 
 	// Helper
 	bool user_in_db(string username);
@@ -107,6 +109,8 @@ public:
 	bool login_successful(const string username, const string password);
 
 	void logout();
+
+	bool signup_successful(const string username, const string password);
 
 	void add_user(const string username, const string password);
 
