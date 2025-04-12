@@ -87,7 +87,7 @@ CREATE TABLE Reviews (
 	your_score NUMBER(4, 2) CHECK(your_score <= 10.00),
 	written DATE DEFAULT CURRENT_DATE,
 	-- same as 'written' if review has never been updated
-	last_update DATE,					
+	last_update DATE DEFAULT written,
 	FOREIGN KEY (user_id) REFERENCES Users(user_id),
 	FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
 );
