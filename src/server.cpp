@@ -20,11 +20,11 @@ Server::Server() {
 	// Init queries
 	get_user_id_sql = "SELECT user_id FROM Users WHERE username = :u AND password = :p";
 	signup_sql = "INSERT INTO Users VALUES (" 
-				+ " ':id',"
-				+ " :uname,"
-				+ " :psswd,"
-				+ " CURRENT_DATE"
-				+ " )"
+				" ':id',"
+				" :uname,"
+				" :psswd,"
+				" CURRENT_DATE"
+				" )"
 
 	// Set statements to null
 	get_user_id_query = nullptr;
@@ -122,14 +122,14 @@ bool Server::signup_successful(const string username, const string password) {
 		regex username_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,30}");
 		if (!regex_match(username, username_format)) {
 			cout << "Your username is too long, or contains characters that are not acceptable. "
-				<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n"
+				<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
 			return false;
 		}
 		// Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
 		regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
 		if (!regex_match(password, password_format)) {
 			cout << "Your password is too long, or contains characters that are not acceptable. "
-				<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n"
+				<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
 			return false;
 		}
 		// If username + password passes checks, insert new user into database
