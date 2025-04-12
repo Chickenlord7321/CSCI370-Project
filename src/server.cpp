@@ -8,7 +8,7 @@
  */
 
 #include "../include/server.hpp"
-#include <regex>	// for string parsing
+// #include <regex>	// for string parsing
 
 // Constructor
 Server::Server() {
@@ -76,8 +76,8 @@ bool Server::connect(const string username, const string password) {
 		conn = env->createConnection(username, password, DB_ADDRESS);
 
 		// Set the next available user/review IDs
-		next_user_id = get_next_user_id();
-		next_review_id = get_next_review_id();
+		next_user_id = 1 + get_next_user_id();
+		next_review_id = 1 + get_next_review_id();
 
 		//! Create statements for each member function
 		get_user_id_query = conn->createStatement(get_user_id_sql);
@@ -136,10 +136,11 @@ bool Server::signup_successful(const string username, const string password) {
 		// }
 		// If username + password passes checks, insert new user into database
 
-		signup_query->setInt(1, next_user_id);
+		string id = to_string(next_user_id);
+		id.insert(0, 6 - id.length(), '0');
+		signup_query->setString(1, id);
 		signup_query->setString(2, username);
 		signup_query->setString(3, password);
-		cout << signup_query->getSQL() << endl;
 		if (signup_query->executeUpdate()) {
 			conn->commit();
 			next_user_id++;

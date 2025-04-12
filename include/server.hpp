@@ -12,10 +12,7 @@
 	using namespace oracle::occi;
 #include <iostream>
 #include <string>
-	using std::cout;
-	using std::cin;
-	using std::endl;
-	using std::string;
+	using namespace std;
 #include <bits/stdc++.h>	// for vector
 	using std::vector;
 #include <unordered_map>
