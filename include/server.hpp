@@ -76,6 +76,8 @@ private:
 	const string DB_ADDRESS = "sunfire.csci.viu.ca";
 
 	string curr_user;	// stores user ID of current logged-in user
+	int next_user_id;
+	int next_review_id;
 
 	// SQL Queries
 	string get_user_id_sql;
@@ -85,6 +87,9 @@ private:
 
 	// Helper
 	bool user_in_db(string username);
+
+	int get_next_user_id();
+	int get_next_review_id();
 
 public:
 	// Constructor
