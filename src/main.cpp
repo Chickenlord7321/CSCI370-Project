@@ -45,33 +45,67 @@
 		* Provides access to the app
 */
 
-#include "../include/app.hpp"
+#include "../include/server.hpp"
+#include <unistd.h>		// for getpass()
+#include <regex>		// for string parsing
 #include <ctype.h>		// for toupper() and tolower()
+#include <iostream>
+#include <string>
+	using namespace std;
+
+
+/***************************
+ * STRING HELPER FUNCTIONS *
+ ***************************/
 
 // Convert string to lowercase
-void to_lower(string& s) {
+string to_lower(string& s) {
 	for (int i = 0; i < s.length(); i++) {
 		s[i] = tolower(s[i]);
 	}
+	return s;
 }
 
 // Convert string to uppercase
-void to_upper(string& s) {
+string to_upper(string& s) {
 	for (int i = 0; i < s.length(); i++) {
 		s[i] = toupper(s[i]);
 	}
+	return s;
 }
+
+/****************************
+ * MOVIE REVIEW APP COMMAND *
+ *     HELPER FUNCTIONS     *
+ ****************************/
 
 int main () {
 	// ! intro goes here
 
-	MovieReviewApp app;
-	app.get_credentials();
+	Server svr;
+
+	// Get credentials for Oracle database
+	cout << "First, you will need to enter your Oracle Database credentials.\n";
+	bool connected;
+	do {
+		// Prompt for username
+		cout << "Enter Oracle username: ";
+		string username;
+		getline(cin, username);
+
+		// Prompt for password
+		char* passwd_char = getpass("Enter Oracle password: ");
+		string password(passwd_char);
+
+		connected = svr.connect(username, password);
+	} while (!connected);
+	cout << "Credentials verified!\n";
+	
 
 	string command;
 	while (command != "q") {
 		cout << "Select one of the following commands by number.\n"
-			<< "Or, type 'Q' to quit:\n"
+			<< "Or, type 'Q' at any time to quit:\n"
 			<< "1:\tlogin\n"
 			<< "2:\tlogout\n"
 			<< "3:\tsign up\n"
@@ -81,15 +115,19 @@ int main () {
 			<< "7:\tlook up movies\n";
 		cout << "> ";
 		getline(cin, command);
-		to_lower(command);
-
-		string username;
-		string password;
+		command = to_lower(command);
 		
 		if (command == "1") {			// login
-			while(!app.login()) {
-				cout << "Login failed. Please try again\n";
-			};
+			string username;
+			string password;
+			do {
+			
+				cout << "Enter your username:\n> ";
+				getline(cin, username);
+				password = string(getpass("Enter your password:\n> "));
+
+				if (to_lower(username) == "q" || to_lower(password) == "q") { return 0; }	// quit
+			} while (!svr.login_successful(username, password));
 		}
 		else if (command == "2") {		// logout
 			cout << "logout\n";
@@ -115,7 +153,7 @@ int main () {
 		else {
 			cout << "\nSorry, that was not a valid command.\n";
 		}
-	}	// end while
+	}	// end while command != "q"
 
 	return 0;
 }

@@ -47,13 +47,16 @@ bool Server::connect(const string username, const string password) {
 	}
 }
 
-string Server::get_user_id(const string username, const string password) const {
+bool Server::login_successful(const string username, const string password) {
 	get_user_id_query->setString(1, username);
 	get_user_id_query->setString(2, password);
 	ResultSet* result = get_user_id_query->executeQuery();
 	if (result->next()) {
-		return result->getString(1);
+		curr_user = result->getString(1);
+		get_user_id_query->closeResultSet(result);
+		return true;
 	} else {
-		throw ServerException("get_user_id", "user not in DB");
+		get_user_id_query->closeResultSet(result);
+		return false;
 	}
 }
