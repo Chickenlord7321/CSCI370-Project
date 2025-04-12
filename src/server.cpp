@@ -24,7 +24,7 @@ Server::Server() {
 				" :uname,"
 				" :psswd,"
 				" CURRENT_DATE"
-				" )"
+				" )";
 
 	// Set statements to null
 	get_user_id_query = nullptr;

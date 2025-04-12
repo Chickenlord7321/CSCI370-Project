@@ -8,10 +8,11 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <occi.h>  // main header for Oracle Call Interface
+#include <occi.h>  			// main header for Oracle Call Interface
 	using namespace oracle::occi;
 #include <iostream>
 #include <string>
+#include <regex>			// for string parsing
 #include <bits/stdc++.h>	// for vector
 #include <unordered_map>
 	using namespace std;

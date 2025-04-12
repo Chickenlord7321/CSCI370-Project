@@ -47,7 +47,6 @@
 
 #include "../include/server.hpp"
 #include <unistd.h>		// for getpass()
-#include <regex>		// for string parsing
 #include <ctype.h>		// for toupper() and tolower()
 #include <cstdlib>		// for exit()
 #include <iostream>
