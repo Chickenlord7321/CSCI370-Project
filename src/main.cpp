@@ -63,7 +63,7 @@ Server svr;
  ***************************/
 
 // Convert string to lowercase
-string to_lower(string& s) {
+string to_lower(string s) {
 	for (int i = 0; i < s.length(); i++) {
 		s[i] = tolower(s[i]);
 	}
@@ -71,7 +71,7 @@ string to_lower(string& s) {
 }
 
 // Convert string to uppercase
-string to_upper(string& s) {
+string to_upper(string s) {
 	for (int i = 0; i < s.length(); i++) {
 		s[i] = toupper(s[i]);
 	}
@@ -88,7 +88,6 @@ string input_str(const string msg) {
 	cout << msg;
 	getline(cin, input);
 	if (to_lower(input) == "q") {
-		svr.disconnect();
 		cout << "Goodbye!" << endl;
 		exit(0);
 	}
@@ -105,10 +104,12 @@ int main () {
 
 	// Get credentials for Oracle database
 	cout << "First, you will need to enter your Oracle Database credentials.\n";
+	string oracle_username;
+	string oracle_password;
 	do {
-		string username = input_str("Enter Oracle username: ");
-		string password = input_password("Enter Oracle password: ");
-	} while (!svr.connect(username, password););
+		oracle_username = input_str("Enter Oracle username: ");
+		oracle_password = input_password("Enter Oracle password: ");
+	} while (!svr.connect(oracle_username, oracle_password));
 	cout << "Credentials verified!\n";
 	
 
@@ -156,7 +157,5 @@ int main () {
 			cout << "\nSorry, that was not a valid command.\n";
 		}
 	}	// end while command != "q"
-
-	svr.disconnect();
 	return 0;
 }

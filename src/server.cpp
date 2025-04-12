@@ -23,10 +23,16 @@ Server::Server() {
 
 // Destructor
 Server::~Server() {
-	// In case program quits abruptly and disconnect() was not called
-	if (env) {
-		disconnect();
+	// Terminate connection only if it's not null
+	// We do this in case the try-catch in connect() fails to establish a connection
+	if (conn) {
+		cout << "Terminating conn\n";
+		// ! Terminate statements
+		conn->terminateStatement(get_user_id_query);
+		env->terminateConnection(conn);
 	}
+	cout << "Terminating env\n";
+	Environment::terminateEnvironment(env);
 }
 
 
@@ -44,18 +50,6 @@ bool Server::connect(const string username, const string password) {
 		cout << "\nUsername or Password was incorrect, could not connect\n\n";
 		return false;	// unsuccessful connection
 	}
-}
-
-
-void Server::disconnect() {
-	// Terminate connection only if it's not null
-	// We do this in case the try-catch in connect() fails to establish a connection
-	if (conn) {
-		// ! Terminate statements
-		conn->terminateStatement(get_user_id_query);
-		env->terminateConnection(conn);
-	}
-	Environment::terminateEnvironment(env);
 }
 
 
