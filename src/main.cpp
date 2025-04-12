@@ -95,7 +95,7 @@ string input_str(const string msg) {
 	return input;
 }
 
-string input_password(const string msg) {
+string input_password(const char* msg) {
 	return string(getpass(msg));
 }
 
