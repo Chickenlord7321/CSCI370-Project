@@ -11,6 +11,8 @@
 Server::Server() {
 	env = nullptr;
 	conn = nullptr;
+	// Empty curr_user represents the concept of being logged out
+	curr_user = "";
 
 	// Init queries
 	get_user_id_sql = "SELECT user_id FROM Users WHERE username = :u AND password = :p";
