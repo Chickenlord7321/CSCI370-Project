@@ -135,9 +135,11 @@ bool Server::signup_successful(const string username, const string password) {
 		// 	return false;
 		// }
 		// If username + password passes checks, insert new user into database
+
 		signup_query->setInt(1, next_user_id);
 		signup_query->setString(2, username);
 		signup_query->setString(3, password);
+		cout << signup_query->getSQL() << endl;
 		if (signup_query->executeUpdate()) {
 			conn->commit();
 			next_user_id++;
