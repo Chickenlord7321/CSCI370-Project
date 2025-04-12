@@ -16,9 +16,6 @@
 	using std::cin;
 	using std::endl;
 	using std::string;
-#include <regex>			// for string parsing
-	using std::regex;
-	using std::regex_match;
 #include <bits/stdc++.h>	// for vector
 	using std::vector;
 #include <unordered_map>
