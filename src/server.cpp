@@ -127,12 +127,12 @@ bool Server::signup_successful(const string username, const string password) {
 			return false;
 		}
 		// Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
-		std::regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
-		if (!std::regex_match(password, password_format)) {
-			cout << "Your password is too long, or contains characters that are not acceptable. "
-				<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-			return false;
-		}
+		// std::regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
+		// if (!std::regex_match(password, password_format)) {
+		// 	cout << "Your password is too long, or contains characters that are not acceptable. "
+		// 		<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
+		// 	return false;
+		// }
 		// If username + password passes checks, insert new user into database
 		signup_query->setInt(1, next_user_id);
 		signup_query->setString(2, username);
