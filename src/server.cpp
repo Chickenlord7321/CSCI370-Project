@@ -119,14 +119,14 @@ bool Server::signup_successful(const string username, const string password) {
 		return false;
 	} 
 	else {
-		// Validate username: letters, numbers, any of !@#$%^&*_, and between 1 and 30 chars long
-		std::regex username_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,30}");
-		if (!std::regex_match(username, username_format)) {
-			cout << "Your username is too long, or contains characters that are not acceptable. "
-				<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-			return false;
-		}
 		//! Uncomment when project complete 
+		// Validate username: letters, numbers, any of !@#$%^&*_, and between 1 and 30 chars long
+		// std::regex username_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,30}");
+		// if (!std::regex_match(username, username_format)) {
+		// 	cout << "Your username is too long, or contains characters that are not acceptable. "
+		// 		<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
+		// 	return false;
+		// }
 		// Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
 		// std::regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
 		// if (!std::regex_match(password, password_format)) {
