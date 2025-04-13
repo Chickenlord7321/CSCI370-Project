@@ -324,9 +324,6 @@ string Server::find_review_by_curr_user(const int movie_id) const {
 
 //! SEARCH MOVIES BY MOVIE NAME
 vector<unordered_map<string, string>> Server::search_movies(const string search_term) {
-	if (curr_user == "") {
-		throw ServerException("search_movies", "user not logged in");
-	}
 	string match = "%" + search_term + "%";
 	search_movies_query->setString(1, match);
 	search_movies_query->setString(2, match);

@@ -60,12 +60,12 @@
 	using std::ios;
 
 // HMLT stuff
-string HTML_HEADER = "<!DOCTYPE html>"
-					"<html lang='en'>"
-					"<head><meta charset='utf-8'><title>Movie Review App</title>"
-					"<link rel='stylesheet' href='css/style.css'></head>"
-					"<body><h1>Movie Review App</h1>";
-string HTML_CLOSE = "</body></html>";
+string HTML_HEADER = "<!DOCTYPE html>\n"
+					"<html lang='en'>\n"
+					"<head><meta charset='utf-8'>\n<title>Movie Review App</title>\n"
+					"<link rel='stylesheet' href='css/style.css'>\n</head>\n"
+					"<body>\n<h1>Movie Review App</h1>\n";
+string HTML_CLOSE = "\n</body>\n</html>";
 
 // Global Server
 Server svr;
@@ -220,22 +220,20 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 	}
 	file << HTML_HEADER;
 	for (int i = 0; i < results.size(); i++) {
-		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>"
-			<< "<h3 class='date'>" << results.at(i).at("written") << "</h3>"
-			<< "<h3 class='author'>" << results.at(i).at("username") << "</h3>"
-			<< "<p class='score'>" << results.at(i).at("your_score") << "</p>"
-			<< "<p class='score'>" << results.at(i).at("user_avg_score") << "</p>"
-			<< "<p class='score'>" << results.at(i).at("tmdb_score") << "</p>"
-			<< "<p class='review'>" << results.at(i).at("review_text") << "</p>"
-			<< "<img src='" << results.at(i).at("poster_path") << "'>";
+		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>\n"
+			<< "<h3 class='date'>" << results.at(i).at("written") << "</h3>\n"
+			<< "<h3 class='author'>" << results.at(i).at("username") << "</h3>\n"
+			<< "<p class='score'>" << results.at(i).at("your_score") << "</p>\n"
+			<< "<p class='score'>" << results.at(i).at("user_avg_score") << "</p>\n"
+			<< "<p class='score'>" << results.at(i).at("tmdb_score") << "</p>\n"
+			<< "<p class='review'>" << results.at(i).at("review_text") << "</p>\n"
+			<< "<img src='" << results.at(i).at("poster_path") << "'>\n";
 	}
 	file << HTML_CLOSE;
 	file.close();
 }
 
 void write_movies_to_html(vector<unordered_map<string, string>> results, const string filename) {
-	cout << "Writing movies to HTML...\n";
-
 	ofstream file;
 	string file_path = "../Output/" + filename;
 	file.open(file_path);
@@ -244,13 +242,13 @@ void write_movies_to_html(vector<unordered_map<string, string>> results, const s
 	}
 	file << HTML_HEADER;
 	for (int i = 0; i < results.size(); i++) {
-		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>"
-			<< "<h3 class='date'>" << results.at(i).at("release_date") << "</h3>"
-			<< "<h3 class='original_lang'>" << results.at(i).at("lang") << "</h3>"
-			<< "<p class='score'>" << results.at(i).at("user_avg_score") << "</p>"
-			<< "<p class='score'>" << results.at(i).at("tmdb_score") << "</p>"
-			<< "<p class='overview'>" << results.at(i).at("overview") << "</p>"
-			<< "<img src='" << results.at(i).at("poster_path") << "'>";
+		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>\n"
+			<< "<h3 class='date'>" << results.at(i).at("release_date") << "</h3>\n"
+			<< "<h3 class='original_lang'>" << results.at(i).at("lang") << "</h3>\n"
+			<< "<p class='score'>" << results.at(i).at("user_avg_score") << "</p>\n"
+			<< "<p class='score'>" << results.at(i).at("tmdb_score") << "</p>\n"
+			<< "<p class='overview'>" << results.at(i).at("overview") << "</p>\n"
+			<< "<img src='" << results.at(i).at("poster_path") << "'>\n";
 	}
 	file << HTML_CLOSE;
 	file.close();
@@ -481,8 +479,8 @@ int main () {
 					break;
 			}
 			cout << "Output written to: Output/" << filename
-				<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
-				<< filename << " into your web browser!\n";
+				<< "\nTo view the output, copy the 'Output' folder to your machine and drag '" 
+				<< filename << "' into your web browser!\n";
 		}
 		//# INVALID COMMAND
 		else {
