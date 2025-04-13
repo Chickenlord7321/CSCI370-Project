@@ -265,6 +265,10 @@ int main () {
 			// Catch exception in case user is not logged in
 			try {
 				results = svr.search_movies(movie_name);
+				if (results.size() <= 0) {
+					cout << "There were no results for your search. Perhaps it was misspelled?\n";
+					continue;
+				}
 			} catch (ServerException& e) {
 				cout << "Sorry, please log in first.\n";
 				continue;
