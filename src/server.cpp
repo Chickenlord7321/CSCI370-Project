@@ -275,10 +275,12 @@ string Server::find_review_by_curr_user(const int movie_id) const {
 	find_review_query->setString(1, curr_user);
 	find_review_query->setInt(2, movie_id);
 	ResultSet* result = find_review_query->executeQuery();
+	string review_id = "";
 	if (result->next()) {
-		return result->getString(1);
+		review_id = result->getString(1);
 	}
-	return "";
+	find_review_query->closeResultSet(result);
+	return review_id;
 }
 
 
@@ -291,7 +293,7 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 	search_movies_query->setString(match);
 	ResultSet* result = search_movies_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
-	search_query->closeResultSet(result);
+	search_movies_query->closeResultSet(result);
 	return search_result;
 }
 
@@ -306,6 +308,6 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 	search_your_reviews_query->setString(3, curr_user);
 	ResultSet* result = search_your_reviews_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_reviews(result);
-	search_query->closeResultSet(result);
+	search_your_reviews_query->closeResultSet(result);
 	return search_result;
 }
