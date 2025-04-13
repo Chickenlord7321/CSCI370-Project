@@ -214,7 +214,7 @@ string write_review_in_terminal(const string original_review = "") {
 void write_reviews_to_html(vector<unordered_map<string, string>> results, const string filename) {
 	ofstream file;
 	file.open(filename);
-	if (!file.is_open()) {
+	if (!file.is_open() || file.fail()) {
 		cout << "File did not open\n";
 	}
 	file << HTML_HEADER;
@@ -410,7 +410,7 @@ int main () {
 			switch (option) {
 				case 1:
 					filename = "all.html";
-					write_reviews_to_html(svr.list_all_reviews(), "all.html");
+					write_reviews_to_html(svr.list_all_reviews(), filename);
 					break;
 				case 2:
 					break;
