@@ -440,12 +440,12 @@ int main () {
 				case 2:
 					string search_term = input_str("Enter your search term:\n> ");
 					filename = "your_reviews.html";
-					write_reviews_to_html(svr.search_your_reviews(search_term));
+					write_reviews_to_html(svr.search_your_reviews(search_term), filename);
 					break;
 				case 3:
 					string search_term = input_str("Enter your search term:\n> ");
 					filename = search_term + ".html";
-					write_reviews_to_html(svr.search_all_reviews(search_term));
+					write_reviews_to_html(svr.search_all_reviews(search_term), filename);
 					break;
 			}
 			cout << "Output written to: Output/" << filename
