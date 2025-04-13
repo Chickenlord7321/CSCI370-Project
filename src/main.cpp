@@ -197,6 +197,7 @@ string write_review_in_terminal(const string original_review = "") {
 	// Clear out buffer, VERY IMPORTANT, I kept getting infinite while loops and input problems without this!
 	cin.ignore(10, '\n');
 	cin.ignore(10, static_cast<char>(EOF));
+	cin.seekg(0, ios::end);
 	return new_review;
 }
 
