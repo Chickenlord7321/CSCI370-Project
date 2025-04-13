@@ -29,13 +29,13 @@
 		* //TODO: write a review
 		* //TODO: update a review
 		* TODO: look up reviews in database
-			* TODO: all (no order)
-			* TODO: sort by date written
+			* TODO: all
+			* TODO: recent reviews
 			* TODO: written by you
 			* TODO: having minimum/maximum stars
-			* TODO: by movie
+			* TODO: by search term
 		* TODO: look up movies in database	
-			* TODO: all (no order)
+			* TODO: all
 			* TODO: by search term
 			* TODO: recently released
 			* TODO: having minimum/maximum stars
@@ -58,6 +58,14 @@
 	using std::ofstream;
 	using std::ifstream;
 	using std::ios;
+
+// HMLT stuff
+string HTML_HEADER = "<!DOCTYPE html>"
+					"<html lang='en'>"
+					"<head><meta charset='utf-8'><title>Movie Review App</title>"
+					"<link rel='stylesheet' href='css/style.css'></head>"
+					"<body><h1>Movie Review App</h1>";
+string HTML_CLOSE = "</body></html>";
 
 // Global Server
 Server svr;
@@ -176,6 +184,7 @@ string write_review_from_file() {
 	// Dump contents of file into this string.
 	string new_review;
 	getline(review_file, new_review, static_cast<char>(EOF));	// EOF is End Of File
+	review_file.close();
 	return new_review;
 }
 
@@ -201,6 +210,23 @@ string write_review_in_terminal(const string original_review = "") {
 	return new_review;
 }
 
+
+void write_reviews_to_html(vector<unordered_map<string, string>> results, const string filename) {
+	ofstream file("Output/" + filename);
+	file << HTML_HEADER;
+	for (int i = 0; i < results.size(); i++) {
+		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>"
+			<< "<h3 class='date'>" << results.at(i).at("written") << "</h3>"
+			<< "<h3 class='author'>" << results.at(i).at("username") << "</h3>"
+			<< "<p class='score' id='user'>" << results.at(i).at("your_score") << "</p>"
+			<< "<p class='score' id='avg'>" << results.at(i).at("user_avg-score") << "</p>"
+			<< "<p class='score' id=tmdb'>" << results.at(i).at("tmdb_score") << "</p>"
+			<< "<p class='date'>" << results.at(i).at("review_text") << "</p>"
+			<< "<img src='" << results.at(i).at("poster_path") << "'>";
+	}
+	file << HTML_CLOSE;
+	file.close();
+}
 
 
 
@@ -366,10 +392,34 @@ int main () {
 			// Finally, update the review
 			svr.update_review(results.at(num).at("review_id"), review, score);
 		}
-		
+
 		//# LOOK UP REVIEWS
 		else if (command == 6) {
-			cout << "look up reviews\n";
+			cout << "Select one of the following options by number:\n"
+				<< "\t1: all reviews\n"
+				<< "\t2: recent reviews\n"
+				<< "\t3: written by you\n"
+				<< "\t4: having minimum/maximum stars\n"
+				<< "\t5: by search term\n";
+			int option = input_int("> ", 1, 5);
+			string filename;
+			switch (option) {
+				case 1:
+					filename = "all.html";
+					write_reviews_to_html(svr.list_all_reviews(), "all.html");
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+			}
+			cout << "Output written to: Output/" << filename
+				<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
+				<< filename " into your web browser!\n";
 		}
 		//# LOOK UP MOVIES
 		else if (command == 7) {
