@@ -290,8 +290,9 @@ int main () {
 			// Print out all movies that match the search term
 			for (int i = 0; i < results.size(); i++) {
 				cout << i << "\n" 
-					<< "\tMoive Title: " << results.at(i).at("title") << endl
-					<< "\tRelease Date: " << results.at(i).at("release_date") << endl;
+					<< "\tMovie Title: " << results.at(i).at("title") << endl
+					<< "\tRelease Date: " << results.at(i).at("release_date") << endl
+					<< "\tMovie Poster: " << results.at(i).at("poster_path") << endl;
 			}
 			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
 
@@ -365,6 +366,7 @@ int main () {
 			// Finally, update the review
 			svr.update_review(results.at(num).at("review_id"), review, score);
 		}
+		
 		//# LOOK UP REVIEWS
 		else if (command == 6) {
 			cout << "look up reviews\n";

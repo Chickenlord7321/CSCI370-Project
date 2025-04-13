@@ -42,8 +42,8 @@ Server::Server() {
 						" WHERE review_id = :review_id";
 	search_your_reviews_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score"
 						" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id)"
-						" WHERE LOWER(title) LIKE LOWER(:search_term)"
-						" OR LOWER(review_text) LIKE LOWER(:search_term)" 
+						" WHERE ( LOWER(title) LIKE LOWER(:search_term)"
+						" OR LOWER(review_text) LIKE LOWER(:search_term) )"
 						" AND user_id = :u_id"
 						" ORDER BY title DESC";
 	find_review_sql = "SELECT review_id FROM Reviews WHERE user_id = :u_id AND movie_id = :m_id";
@@ -294,17 +294,10 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 		throw ServerException("search_movies", "user not logged in");
 	}
 	string match = "%" + search_term + "%";
-
-	//! DEBUG 
-	cout << "search term is:" << match << endl;
-
 	search_movies_query->setString(1, match);
 	search_movies_query->setString(2, match);
 	ResultSet* result = search_movies_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
-
-	cout << "SQL:" << search_movies_query->getSQL() << endl;
-
 	search_movies_query->closeResultSet(result);
 	return search_result;
 }
@@ -315,19 +308,10 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 		throw ServerException("search_your_reviews", "user not logged in");
 	}
 	string match = "%" + search_term + "%";
-
-	//! DEBUG 
-	cout << "search term is:" << match << endl;
-
 	search_your_reviews_query->setString(1, match);
 	search_your_reviews_query->setString(2, match);
 	search_your_reviews_query->setString(3, curr_user);
 	ResultSet* result = search_your_reviews_query->executeQuery();
-
-
-	//! DEBUG
-	cout << "SQL:" << search_your_reviews_query->getSQL() << endl;
-
 	vector<unordered_map<string, string>> search_result = list_reviews(result);
 	search_your_reviews_query->closeResultSet(result);
 	return search_result;
