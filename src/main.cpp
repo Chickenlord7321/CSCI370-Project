@@ -161,7 +161,6 @@ string input_password(const char* msg) {
  ****************************/
 
 string write_review_from_file() {
-
 	ifstream review_file;
 	do {
 		string filename = input_str("Enter file path (relative or absolute)\n> ");
@@ -181,7 +180,7 @@ string write_review_from_file() {
 string write_review_in_terminal(const string original_review = "") {
 	if (original_review != "") {
 		cout << "Here is your original review:\n";
-		cout << original_review << endl;
+		cout << original_review << endl << endl;
 	}
 	cout << "Write your review here. Press CTRL + D to end the review:\n";
 
@@ -189,6 +188,10 @@ string write_review_in_terminal(const string original_review = "") {
 	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
 	string new_review;
 	getline(cin, new_review, static_cast<char>(EOF));	// EOF is End Of File (CTRL + D on Linux)
+
+	//! DEBUG
+	cout << "\nCTRL + D works!\n";
+
 	return new_review;
 }
 
@@ -211,7 +214,7 @@ int main () {
 
 	string command;
 	while (command != "q") {
-		cout << "Select one of the following commands by number.\n"
+		cout << "\nSelect one of the following commands by number.\n"
 			<< "Or, type 'Q' at any time to quit:\n"
 			<< "1:\tlogin\n"
 			<< "2:\tlogout\n"
@@ -232,7 +235,7 @@ int main () {
 				password = input_password("Enter your password: ");
 				logged_in = svr.login_successful(username, password);
 				if (logged_in) {
-					cout << "\nLogin successful!\n";
+					cout << "Login successful!\n";
 				} 
 				else { 
 					cout << "Sorry, the username or password was incorrect.\n"; 
@@ -294,11 +297,8 @@ int main () {
 				}
 			} while (option != 1 && option != 2);
 
-			svr.submit_review(
-				stoi(results.at(num).at("movie_id")),
-				review,
-				score
-			);
+			int mid = stoi(results.at(num).at("movie_id"));
+			svr.submit_review(mid, review, score);
 		}
 
 		//# UPDATE A REVIEW
