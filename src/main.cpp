@@ -49,7 +49,6 @@
 #include <unistd.h>		// for getpass()
 #include <ctype.h>		// for toupper() and tolower()
 #include <cstdlib>		// for exit()
-#include <regex>		// for string parsing on username/password
 #include <iostream>
 #include <string>
 	using namespace std;
@@ -301,23 +300,6 @@ int main () {
 			do {
 				username = input_str("Enter your username: ");
 				password = input_password("Enter your password: ");
-
-				// Validate username: letters, numbers, any of !@#$%^&*_, and between 1 and 30 chars long
-				std::regex username_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,30}");
-				if (!std::regex_match(username, username_format)) {
-					cout << "Your username is too long, or contains characters that are not acceptable. "
-						<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-					continue;
-				}
-				// Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
-				std::regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
-				if (!std::regex_match(password, password_format)) {
-					cout << "Your password is too long, or contains characters that are not acceptable. "
-						<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-					continue;
-				}
-
-				// If username + password passes checks, insert new user into database
 				logged_in = svr.login_successful(username, password);
 				if (logged_in) {
 					cout << "Login successful!\n";
