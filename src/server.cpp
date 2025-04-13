@@ -80,6 +80,7 @@ vector<unordered_map<string, string>> Server::list_movies(ResultSet* result) {
 	int i = 0;
 	vector<unordered_map<string, string>> data;
 	while (result->next()) {
+		cout << "Movie no.: " << i << endl;
 		data.at(i) = {{"movie_id", result->getString(1)}};
 		data.at(i) = {{"title", result->getString(2)}};
 		data.at(i) = {{"overview", result->getString(3)}};
