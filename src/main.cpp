@@ -343,7 +343,7 @@ int main () {
 			for (int i = 0; i < results.size(); i++) {
 				cout << i << "\n" 
 					<< "\tMovie Title: " << results.at(i).at("title") << endl
-					<< "\tYour Score: " << results.at(i).at("your_score") << endl;
+					<< "\tYour Score: " << results.at(i).at("your_score") << endl
 					<< "\tYour Review: " << results.at(i).at("review_text") << endl;
 			}
 			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
