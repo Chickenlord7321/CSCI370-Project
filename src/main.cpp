@@ -50,6 +50,7 @@
 #include <unistd.h>		// for getpass()
 #include <ctype.h>		// for toupper() and tolower()
 #include <cstdlib>		// for exit()
+#include <limits>		// for max streamsize
 #include <iostream>
 #include <string>
 	using namespace std;
@@ -192,8 +193,10 @@ string write_review_in_terminal(const string original_review = "") {
 	// I found out how to get multi-line inputs from this Stack Overflow post:
 	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
 	string new_review;
-	// getline(cin, new_review, static_cast<char>(EOF));	// EOF is End Of File (CTRL + D on Linux)
-	getline(cin, new_review);
+	getline(cin, new_review, static_cast<char>(EOF));	// EOF is End Of File (CTRL + D on Linux)
+	// getline(cin, new_review);
+	// Clear buffer
+	cin.ignore(numeric_limits<streamsize>::max, '\n');
 	return new_review;
 }
 
