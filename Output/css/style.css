@@ -1,4 +1,33 @@
+/* Reset stylesheet */
+
 * {
 	margin: 0;
 	box-sizing: border-box;
+}
+
+img {
+	max-width: 100%;
+}
+
+body {
+	--num-cols: 3;
+	display: grid;
+	grid-template-columns: repeat(var(--num-cols), 1fr);
+}
+
+@media screen and (width < 1200px) {
+	body {
+		--num-cols: 2;
+	}
+}
+
+@media screen and (width < 700px) {
+	body {
+		--num-cols: 1;
+	}
+}
+
+h1 {
+	text-align: center;
+	grid-column: 1 / span;
 }

@@ -213,7 +213,7 @@ string write_review_in_terminal(const string original_review = "") {
 
 void write_reviews_to_html(vector<unordered_map<string, string>> results, const string filename) {
 	ofstream file;
-	string file_path = "../Output/" + filename;
+	string file_path = "./Output/" + filename;
 	file.open(file_path);
 	if (!file.is_open() || file.fail()) {
 		cout << "Could not open file\n";
@@ -238,7 +238,7 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 
 void write_movies_to_html(vector<unordered_map<string, string>> results, const string filename) {
 	ofstream file;
-	string file_path = "../Output/" + filename;
+	string file_path = "./Output/" + filename;
 	file.open(file_path);
 	if (!file.is_open() || file.fail()) {
 		cout << "Could not open file\n";
