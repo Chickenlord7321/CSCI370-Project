@@ -84,16 +84,21 @@ private:
 	// SQL Queries
 	string get_user_id_sql;
 	string signup_sql;
+	string submit_review_sql;
 
 	// Query statements
 	Statement* get_user_id_query;
 	Statement* signup_query;
+	Statement* submit_review_query;
 
 	// Helper
 	bool user_in_db(string username);
 
 	int get_next_user_id();
 	int get_next_review_id();
+
+	// List all data from movie result set
+	vector<unordered_map<string, string>> list_movies(ResultSet* result);
 
 public:
 	// Constructor
@@ -114,15 +119,16 @@ public:
 
 	bool signup_successful(const string username, const string password);
 
-	void add_user(const string username, const string password);
+	bool submit_review(const int movie_id, const string review, const double score);
 
-	void add_review(const string review);
+	// void update_review(const string review);
 
-	void update_review(const string review);
+	// Find movies by search term
+	vector<unordered_map<string, string>> search_movies(const string search_term);
 
-	vector<unordered_map<string, string>> list_reviews_by_rating(const string op, const double rating, const string sort="ASC");
+	// vector<unordered_map<string, string>> list_reviews_by_rating(const string op, const double rating, const string sort="ASC");
 
-	vector<unordered_map<string, string>> list_movies_by_rating(const string op, const double rating, const string sort="ASC");
+	// vector<unordered_map<string, string>> list_movies_by_rating(const string op, const double rating, const string sort="ASC");
 };
 
 #endif

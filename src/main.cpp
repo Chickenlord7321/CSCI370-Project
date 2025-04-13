@@ -25,7 +25,7 @@
 		* Commands:
 		* //TODO: login
 		* //TODO: logout
-		* TODO: sign up
+		* //TODO: sign up
 		* TODO: write a review
 		* TODO: update a review
 		* TODO: look up reviews in database
@@ -36,6 +36,7 @@
 			* TODO: by movie
 		* TODO: look up movies in database	
 			* TODO: all (no order)
+			* TODO: by search term
 			* TODO: recently released
 			* TODO: having minimum/maximum stars
 			* TODO: have reviews
@@ -52,6 +53,10 @@
 #include <iostream>
 #include <string>
 	using namespace std;
+#include <fstream>		// for file writing/appending
+	using std::ofstream;
+	using std::ifstream;
+	using std::ios;
 
 // Global Server
 Server svr;
@@ -93,9 +98,64 @@ string input_str(const string msg) {
 	return input;
 }
 
+double input_double(const string msg, const double min, const double max) {
+	double answer = 0.0;
+	string throwaway;
+	cout << msg;
+
+	// cin has a flag that reads as false if the user input is not of the correct data type.
+	// We exploit that flag in this while loop. Credit to Prof. Bette Bultena for showing me 
+	// this trick in CSCI 159!
+	while (!(cin >> answer) || answer < min || answer > max) {
+		cout << "\nSorry, that was not a valid input. Please try again\n> ";
+		// Clear out the buffer
+		cin.clear();
+		getline(cin, throwaway);
+		if (to_lower(throwaway) == "q") {
+			cout << "Goodbye!" << endl;
+			exit(0);
+		}
+	}
+	// Clear out buffer again for the next time this function is called.
+	cin.clear();
+	getline(cin, throwaway);
+	return answer;
+}
+
+
+int input_int(const string msg, const int min, const int max) {
+	int answer;
+	string throwaway;
+	cout << msg;
+
+	// if the user does not input an integer, prompt them to try again.
+	while (!(cin >> answer) || answer < min || answer > max) {
+		cout << "Sorry, that was not a valid integer. Please try again\n> ";
+
+		// Clean out cin and the buffer.
+		cin.clear();
+		getline(cin, throwaway);
+		if (to_lower(throwaway) == "q") {
+			cout << "Goodbye!" << endl;
+			exit(0);
+		}
+	}
+	// Clean out buffer again.
+	cin.clear();
+	getline(cin, throwaway);
+	return answer;
+}
+
+
 string input_password(const char* msg) {
 	return string(getpass(msg));
 }
+
+
+/****************************
+ * MORE HELPER FUNCTION FOR *
+ *   LARGE BLOCKS OF CODE   *
+ ****************************/
 
 
 int main () {
@@ -125,7 +185,8 @@ int main () {
 			<< "7:\tlook up movies\n";
 		command = to_lower(input_str("> "));
 		
-		if (command == "1") {			// login
+		//# LOGIN
+		if (command == "1") {
 			string username;
 			string password;
 			bool logged_in;
@@ -141,11 +202,15 @@ int main () {
 				}
 			} while (!logged_in);
 		}
-		else if (command == "2") {		// logout
+
+		//# LOGOUT
+		else if (command == "2") {
 			svr.logout();
 			cout << "\nLogout successful!\n";
 		}
-		else if (command == "3") {		// sign up
+
+		//# SIGN UP
+		else if (command == "3") {
 			string username;
 			string password;
 			bool signed_up;
@@ -155,21 +220,55 @@ int main () {
 			} while (!svr.signup_successful(username, password));
 			cout << "\nYou've been successfully signed up, " << username << "!\n";
 		}
-		else if (command == "4") {		// write review
-			cout << "write a review\n";
+
+		//# WRITE A REVIEW
+		else if (command == "4") {
+			string movie_name = input_str("Search for a movie to review\n> ");
+			vector<unordered_map<string, string>> results = svr.search_movies(movie_name);
+			for (int i = 0; i < results.size(); i++) {
+				cout << i << "\n" 
+					<< "\t" << results.at(i).at("title") << endl
+					<< "\t" << results.at(i).at("release_date") << endl;
+			}
+			int num = input_int("Select one of the results by number\n> ");
+
+			double score = input_double("Give the movie a score out of 10\n> ", 0.0, 10.0);
+			// do {
+			// 	option = input_str("Type 1 to submit your review from a text file, or 2 to write the review in this window.\n> ");
+			// 	if (option == "1") {
+			// 		string filename = input_str("Enter path to the text file containg your review\n> ");
+			// 		ifstream review_file(filename);
+			// 		if (review_file.fail()) {
+			// 			cout << "\nSorry, " << filename << " does not exist.\n";
+			// 			continue;
+			// 		}
+					
+			// 	} 
+			// 	else if (option == "2") {
+
+			// 	}
+			// 	else {
+			// 		cout << "\nSorry, that was not a valid option.\n";
+			// 	}
+			// } while (option != "q")
 		}
-		else if (command == "5") {		// update review
+
+		//# UPDATE A REVIEW
+		else if (command == "5") {
 			cout << "update a review\n";
 		}
-		else if (command == "6") {		// look up reviews
+		//# LOOK UP REVIEWS
+		else if (command == "6") {
 			cout << "look up reviews\n";
 		}
-		else if (command == "7") {		// look up movies
+		//# LOOK UP MOVIES
+		else if (command == "7") {
 			cout << "look up movies\n";
 		}
+		//# INVALID COMMAND
 		else {
 			cout << "\nSorry, that was not a valid command.\n";
 		}
-	}	// end while command != "q"
+	}	// end main while
 	return 0;
 }

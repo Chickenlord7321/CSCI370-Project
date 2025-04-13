@@ -26,10 +26,20 @@ Server::Server() {
 				" :psswd,"
 				" CURRENT_DATE"
 				" )";
+	submit_review_sql = "INSERT INTO Reviews VALUES("
+						" :rid,"
+						" :uid,"
+						" :mid,"
+						" :r_text,"
+						" :score,"
+						" CURRENT_DATE,"
+						" CURRENT_DATE"
+						")";
 
 	// Set statements to null
 	get_user_id_query = nullptr;
 	signup_query = nullptr;
+	submit_review_query = nullptr;
 }
 
 // Destructor
@@ -40,6 +50,7 @@ Server::~Server() {
 		// ! Terminate statements
 		conn->terminateStatement(get_user_id_query);
 		conn->terminateStatement(signup_query);
+		conn->terminateStatement(submit_review_query);
 		env->terminateConnection(conn);
 	}
 	Environment::terminateEnvironment(env);
@@ -65,6 +76,24 @@ int Server::get_next_review_id() {
 	return next_id_rs->getInt(1);
 }
 
+vector<unordered_map<string, string>> Server::list_movies(ResultSet* result) {
+	int i = 0;
+	vector<unordered_map<string, string>> data;
+	while (result->next()) {
+		data.at(i).at("movie_id") = result->getString(1);
+		data.at(i).at("title") = result->getString(2);
+		data.at(i).at("overview") = result->getString(3);
+		data.at(i).at("lang") = result->getString(4);
+		data.at(i).at("bg_path") = result->getString(5);
+		data.at(i).at("poster_path") = result->getString(6);
+		data.at(i).at("tmdb_score") = result->getString(7);
+		data.at(i).at("user_avg_score") = result->getString(8);
+		data.at(i).at("release_date") = result->getString(9);
+		i++;
+	}
+	return data;
+}
+
 /***************************
  * PUBLIC SERVER FUNCTIONS *
  ***************************/
@@ -82,6 +111,7 @@ bool Server::connect(const string username, const string password) {
 		//! Create statements for each member function
 		get_user_id_query = conn->createStatement(get_user_id_sql);
 		signup_query = conn->createStatement(signup_sql);
+		submit_review_query = conn->createStatement(submit_review_sql);
 
 		return true;	// successful connection
 	} catch (SQLException & error) {
@@ -136,9 +166,9 @@ bool Server::signup_successful(const string username, const string password) {
 		// }
 		// If username + password passes checks, insert new user into database
 
-		string id = to_string(next_user_id);
-		id.insert(0, 6 - id.length(), '0');
-		signup_query->setString(1, id);
+		string uid = to_string(next_user_id);
+		uid.insert(0, 6 - uid.length(), '0');
+		signup_query->setString(1, uid);
 		signup_query->setString(2, username);
 		signup_query->setString(3, password);
 		if (signup_query->executeUpdate()) {
@@ -147,4 +177,36 @@ bool Server::signup_successful(const string username, const string password) {
 		}
 		return true;
 	}
+}
+
+
+bool Server::submit_review(const int movie_id, const string review, const double score) {
+	if (curr_user == "") {
+		cout << "\nYou are not logged in. Please login first.\n";
+		return false;
+	}
+	string rid = to_string(next_review_id);
+	rid.insert(0, 9 - rid.length(), '0');
+	submit_review_query->setString(1, rid);
+	submit_review_query->setString(2, curr_user);
+	submit_review_query->setString(3, movie_id);
+	submit_review_query->setString(4, review);
+	submit_review_query->setDouble(5, score);
+	if (submit_review_query->executeUpdate()) {
+		conn->commit();
+		next_review_id++;
+	}
+	return true;
+}
+
+
+vector<unordered_map<string, string>> Server::search_movies(const string search_term) {
+	string search_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE '%" 
+						+ search_term + "%' ORDER BY movie_id DESC";
+	Statement* search_query = conn->createStatement(search_sql);
+	ResultSet* result = search_query->executeQuery();
+	vector<unordered_map<string, string>> search_result = list_movies(result);
+	search_query->closeResultSet(result);
+	conn->terminateStatement(search_query);
+	return search_result;
 }
