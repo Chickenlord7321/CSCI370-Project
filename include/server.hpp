@@ -101,6 +101,9 @@ private:
 	// List all data from movie result set
 	vector<unordered_map<string, string>> list_movies(ResultSet* result);
 
+	// List all reviews that match search term, and written by current user
+	vector<unordered_map<string, string>> list_reviews(ResultSet* result);
+
 public:
 	// Constructor
 	Server();
