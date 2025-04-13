@@ -235,7 +235,7 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 
 void write_movies_to_html(vector<unordered_map<string, string>> results, const string filename) {
 	cout << "Writing movies to HTML...\n";
-	
+
 	ofstream file;
 	string file_path = "../Output/" + filename;
 	file.open(file_path);
@@ -472,7 +472,7 @@ int main () {
 					break;
 				case 2:
 					filename = "movies_with_no_reviews.html";
-					write_movies_to_html(svr.search_your_reviews(search_term), filename);	//!
+					write_movies_to_html(svr.get_reviewless_movies(), filename);
 					break;
 				case 3:
 					search_term = input_str("Enter your search term:\n> ");
