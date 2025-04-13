@@ -192,8 +192,8 @@ string write_review_in_terminal(const string original_review = "") {
 	//! DEBUG
 	cout << "\nCTRL + D works!\n";
 	cout << "[" << new_review << "]" << endl;
-	cout << static_cast<char>(new_review[new_review.length() - 1]) << endl;
-	cout << static_cast<int>(new_review[new_review.length() - 1]) << endl;
+	cout << "[" << static_cast<char>(new_review[new_review.length() - 1]) << "]\n";
+	cout << "[" << static_cast<int>(new_review[new_review.length() - 1]) << "]\n";
 
 	return new_review;
 }
