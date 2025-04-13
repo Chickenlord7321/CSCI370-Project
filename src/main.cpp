@@ -175,11 +175,6 @@ string write_review_from_file() {
 
 	string new_review;
 	getline(review_file, new_review, static_cast<char>(EOF));
-
-	// Clear buffer
-	string throwaway;
-	getline(cin, throwaway);
-	cin.clear();
 	return new_review;
 }
 
@@ -193,10 +188,14 @@ string write_review_in_terminal(const string original_review = "") {
 	// I found out how to get multi-line inputs from this Stack Overflow post:
 	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
 	string new_review;
-	getline(cin, new_review, static_cast<char>(EOF));	// EOF is End Of File (CTRL + D on Linux)
-	// getline(cin, new_review);
-	// Clear buffer
-	cin.ignore(numeric_limits<streamsize>::max, '\n');
+	string line;
+	// getline(review_file, new_review, static_cast<char>(EOF));
+	while (getline(cin, line)) {
+		if (line.empty()) {
+			break;
+		}
+		new_review += line;
+	}
 	return new_review;
 }
 
