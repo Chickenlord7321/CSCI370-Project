@@ -290,7 +290,7 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 		throw ServerException("search_movies", "user not logged in");
 	}
 	string match = "%" + search_term + "%";
-	search_movies_query->setString(match);
+	search_movies_query->setString(1, match);
 	ResultSet* result = search_movies_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
 	search_movies_query->closeResultSet(result);
