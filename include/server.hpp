@@ -96,8 +96,6 @@ private:
 	int get_next_user_id();
 	int get_next_review_id();
 
-	string find_review_by_curr_user(const int movie_id) const;
-
 	// List all data from movie result set
 	vector<unordered_map<string, string>> list_movies(ResultSet* result);
 
@@ -125,7 +123,9 @@ public:
 
 	bool submit_review(const int movie_id, const string review, const double score);
 
-	bool update_review(const string review, const double score);
+	bool update_review(const string review_id, const string review, const double score);
+
+	string find_review_by_curr_user(const int movie_id) const;
 
 	// Find movies by search term
 	vector<unordered_map<string, string>> search_movies(const string search_term);

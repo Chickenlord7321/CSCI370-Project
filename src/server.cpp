@@ -57,6 +57,7 @@ Server::~Server() {
 		conn->terminateStatement(get_user_id_query);
 		conn->terminateStatement(signup_query);
 		conn->terminateStatement(submit_review_query);
+		conn->terminateStatement(update_review_query);
 		env->terminateConnection(conn);
 	}
 	Environment::terminateEnvironment(env);
@@ -80,22 +81,6 @@ int Server::get_next_review_id() {
 	ResultSet* next_id_rs = next_id_query->executeQuery();
 	next_id_rs->next();
 	return next_id_rs->getInt(1);
-}
-
-
-string Server::find_review_by_curr_user(const int movie_id) const {
-	if (curr_user == "") {
-		return "";
-	}
-
-	string sql = "SELECT review_id FROM Reviews WHERE user_id = '" + curr_user 
-				+ "' AND movie_id = " + to_string(movie_id);
-	Statement* query = conn->createStatement(sql);
-	ResultSet* result = query->executeQuery();
-	if (result->next()) {
-		return result->getString(1);
-	}
-	return "";
 }
 
 
@@ -158,6 +143,7 @@ bool Server::connect(const string username, const string password) {
 		get_user_id_query = conn->createStatement(get_user_id_sql);
 		signup_query = conn->createStatement(signup_sql);
 		submit_review_query = conn->createStatement(submit_review_sql);
+		update_review_query = conn->createStatement(update_review_sql);
 
 		return true;	// successful connection
 	} catch (SQLException & error) {
@@ -225,7 +211,7 @@ bool Server::signup_successful(const string username, const string password) {
 	}
 }
 
-
+//! SUBMIT REVIEW
 bool Server::submit_review(const int movie_id, const string review, const double score) {
 	if (curr_user == "") {
 		cout << "\nYou are not logged in. Please login first.\n";
@@ -249,10 +235,39 @@ bool Server::submit_review(const int movie_id, const string review, const double
 	return true;
 }
 
+//! UPDATE REVIEW
+bool Server::update_review(const string review_id, const string review, const double score) {
+	if (curr_user == "") {
+		cout << "\nYou are not logged in. Please login first.\n";
+		return false;
+	}
+	update_review_query->setString(1, review);
+	update_review_query->setDouble(2, score);
+	update_review_query->setString(3, review_id);
+	if (update_review_query->executeUpdate()) {
+		conn->commit();
+	}
+	return true;
+}
 
-bool Server::update_review(const string review, const double score) {}
+
+string Server::find_review_by_curr_user(const int movie_id) const {
+	if (curr_user == "") {
+		return "";
+	}
+
+	string sql = "SELECT review_id FROM Reviews WHERE user_id = '" + curr_user 
+				+ "' AND movie_id = " + to_string(movie_id);
+	Statement* query = conn->createStatement(sql);
+	ResultSet* result = query->executeQuery();
+	if (result->next()) {
+		return result->getString(1);
+	}
+	return "";
+}
 
 
+//! SEARCH MOVIES BY MOVIE NAME
 vector<unordered_map<string, string>> Server::search_movies(const string search_term) {
 	if (curr_user == "") {
 		throw ServerException("search_movies", "user not logged in");
@@ -267,7 +282,7 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 	return search_result;
 }
 
-
+//! SEARCH YOUR REVIEWS BY SEARCH TERM
 vector<unordered_map<string, string>> Server::search_your_reviews(const string search_term) {
 	if (curr_user == "") {
 		throw ServerException("search_your_reviews", "user not logged in");

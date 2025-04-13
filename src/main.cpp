@@ -223,13 +223,13 @@ int main () {
 	while (app_running) {
 		cout << "\nSelect one of the following commands by number.\n"
 			<< "Or, type 'Q' at any time to quit:\n"
-			<< "1:\tlogin\n"
-			<< "2:\tlogout\n"
-			<< "3:\tsign up\n"
-			<< "4:\twrite a review\n"
-			<< "5:\tupdate a review\n"
-			<< "6:\tlook up reviews\n"
-			<< "7:\tlook up movies\n";
+			<< "\t1: login\n"
+			<< "\t2: logout\n"
+			<< "\t3: sign up\n"
+			<< "\t4: write a review\n"
+			<< "\t5: update a review\n"
+			<< "\t6: look up reviews\n"
+			<< "\t7: look up movies\n";
 		command = input_int("> ", 1, 7);
 		
 		//# LOGIN
@@ -314,7 +314,7 @@ int main () {
 			if (!svr.submit_review(movie_id, review, score)) {
 				string update_instead = to_lower(input_str("Would you like to update your review instead? Y/N\n> "));
 				if (update_instead == "y" || update_instead == "yes") {
-					// update review
+					svr.update_review(find_review_by_curr_user(movie_id), review, score);
 				}
 			}
 
@@ -344,9 +344,26 @@ int main () {
 				cout << i << "\n" 
 					<< "\tMovie Title: " << results.at(i).at("title") << endl
 					<< "\tYour Score: " << results.at(i).at("your_score") << endl
-					<< "\tYour Review: " << results.at(i).at("review_text") << endl;
+					<< "\tYour Review: \n" << results.at(i).at("review_text") << endl;
 			}
 			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
+
+			// Step 2: give movie a score
+			double score = input_double("Give the movie a new score out of 10\n> ", 0.0, 10.0);
+
+			// Step 3: write and submit review
+			int option;
+			string review;
+			option = input_int("Type 1 to submit your review from a text file, or 2 to write the review in this window.\n> ", 1, 2);
+			if (option == 1) {
+				review = write_review_from_file();
+			} 
+			else {
+				review = write_review_in_terminal(results.at(num).at("review_text"));
+			}
+
+			// Finally, update the review
+			svr.update_review(results.at(num).at("review_id"), review, score);
 		}
 		//# LOOK UP REVIEWS
 		else if (command == 6) {
