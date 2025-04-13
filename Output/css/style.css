@@ -7,12 +7,16 @@
 
 img {
 	max-width: 100%;
+	object-fit: cover;
 }
 
 body {
 	--num-cols: 3;
+	width: 80%;
+	margin: 0 auto;
 	display: grid;
 	grid-template-columns: repeat(var(--num-cols), 1fr);
+	gap: 2rem;
 }
 
 @media screen and (width < 1200px) {
@@ -29,5 +33,36 @@ body {
 
 h1 {
 	text-align: center;
-	grid-column: 1 / span;
+	grid-column: 1 / span var(--num-cols);
+	margin: 2em 0;
+}
+
+.container {
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.container > * {
+	margin-bottom: 1rem;
+}
+
+.container img {
+	display: block;
+	order: -1;
+}
+
+.index {
+	display: block;
+	text-align: center;
+	font-size: 3rem;
+	color: coral;
+}
+
+.score {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+}
+
+.container p {
+	font-size: 1.2rem;
 }
