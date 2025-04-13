@@ -213,7 +213,8 @@ string write_review_in_terminal(const string original_review = "") {
 
 void write_reviews_to_html(vector<unordered_map<string, string>> results, const string filename) {
 	ofstream file;
-	file.open(filename);
+	string file_path = "../Output/" + filename;
+	file.open(file_path);
 	if (!file.is_open() || file.fail()) {
 		cout << "File did not open\n";
 	}
@@ -222,10 +223,10 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>"
 			<< "<h3 class='date'>" << results.at(i).at("written") << "</h3>"
 			<< "<h3 class='author'>" << results.at(i).at("username") << "</h3>"
-			<< "<p class='score' id='user'>" << results.at(i).at("your_score") << "</p>"
-			<< "<p class='score' id='avg'>" << results.at(i).at("user_avg_score") << "</p>"
-			<< "<p class='score' id=tmdb'>" << results.at(i).at("tmdb_score") << "</p>"
-			<< "<p class='date'>" << results.at(i).at("review_text") << "</p>"
+			<< "<p class='score'>" << results.at(i).at("your_score") << "</p>"
+			<< "<p class='score'>" << results.at(i).at("user_avg_score") << "</p>"
+			<< "<p class='score'>" << results.at(i).at("tmdb_score") << "</p>"
+			<< "<p class='review'>" << results.at(i).at("review_text") << "</p>"
 			<< "<img src='" << results.at(i).at("poster_path") << "'>";
 	}
 	file << HTML_CLOSE;
