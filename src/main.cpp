@@ -188,13 +188,6 @@ string write_review_in_terminal(const string original_review = "") {
 	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
 	string new_review;
 	getline(cin, new_review, static_cast<char>(EOF));	// EOF is End Of File (CTRL + D on Linux)
-
-	//! DEBUG
-	cout << "\nCTRL + D works!\n";
-	cout << "[" << new_review << "]" << endl;
-	cout << "[" << static_cast<char>(new_review[new_review.length() - 1]) << "]\n";
-	cout << "[" << static_cast<int>(new_review[new_review.length() - 1]) << "]\n";
-
 	return new_review;
 }
 

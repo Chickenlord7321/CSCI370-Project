@@ -21,17 +21,17 @@ Server::Server() {
 	// Init queries
 	get_user_id_sql = "SELECT user_id FROM Users WHERE username = :u AND password = :p";
 	signup_sql = "INSERT INTO Users VALUES(" 
-				" :id,"
+				" :user_id,"
 				" :uname,"
 				" :psswd,"
 				" CURRENT_DATE"
 				" )";
 	submit_review_sql = "INSERT INTO Reviews VALUES("
-						" :rid,"
-						" :uid,"
-						" :mid,"
-						" :r_text,"
-						" :score,"
+						" :review_id,"
+						" :user_id,"
+						" :movie_id,"
+						" :review_text,"
+						" :your_score,"
 						" CURRENT_DATE,"
 						" CURRENT_DATE"
 						")";
