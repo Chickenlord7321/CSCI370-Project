@@ -107,14 +107,16 @@ double input_double(const string msg, const double min, const double max) {
 	// We exploit that flag in this while loop. Credit to Prof. Bette Bultena for showing me 
 	// this trick in CSCI 159!
 	while (!(cin >> answer) || answer < min || answer > max) {
-		cout << "\nSorry, that was not a valid input. Please try again\n> ";
 		// Clear out the buffer
 		cin.clear();
 		getline(cin, throwaway);
+
+		// Quit if user types 'Q'
 		if (to_lower(throwaway) == "q") {
 			cout << "Goodbye!" << endl;
 			exit(0);
 		}
+		cout << "\nSorry, that was not a valid input. Please try again\n> ";
 	}
 	// Clear out buffer again for the next time this function is called.
 	cin.clear();
@@ -130,15 +132,16 @@ int input_int(const string msg, const int min, const int max) {
 
 	// if the user does not input an integer, prompt them to try again.
 	while (!(cin >> answer) || answer < min || answer > max) {
-		cout << "Sorry, that was not a valid integer. Please try again\n> ";
-
 		// Clean out cin and the buffer.
 		cin.clear();
 		getline(cin, throwaway);
+
+		// Quit if user types 'Q'
 		if (to_lower(throwaway) == "q") {
 			cout << "Goodbye!" << endl;
 			exit(0);
 		}
+		cout << "Sorry, that was not a valid integer. Please try again\n> ";
 	}
 	// Clean out buffer again.
 	cin.clear();
@@ -157,9 +160,43 @@ string input_password(const char* msg) {
  *   LARGE BLOCKS OF CODE   *
  ****************************/
 
+string write_review_from_file() {
+
+	ifstream review_file;
+	do {
+		string filename = input_str("Enter file path (relative or absolute)\n> ");
+		try {
+			review_file.open(filename);
+		} 
+		catch (ifstream::failure& fail) {
+			cout << "Sorry, that file doesn't seem to exist. Please try again.\n";
+		}
+	} while (!review_file.is_open());
+
+	string new_review;
+	getline(review_file, new_review, static_cast<char>(EOF));
+	return new_review;
+}
+
+string write_review_in_terminal(const string original_review = "") {
+	if (!original_review == "") {
+		cout << "Here is your original review:\n";
+		cout << original_review << endl;
+	}
+	cout << "Write your review here. Press CTRL + D to end the review:\n"
+
+	// I found out how to get multi-line inputs from this Stack Overflow post:
+	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
+	string new_review;
+	getline(cin, new_review, static_cast<char>(EOF));	// EOF is End Of File (CTRL + D on Linux)
+	return new_review;
+}
+
+
+
 
 int main () {
-	// ! intro goes here
+	cout << "Welcome to the Movie Review App!\n\n";
 
 	// Get credentials for Oracle database
 	cout << "First, you will need to enter your Oracle Database credentials.\n";
@@ -223,6 +260,7 @@ int main () {
 
 		//# WRITE A REVIEW
 		else if (command == "4") {
+			// Step 1: search for a movie to review
 			string movie_name = input_str("Search for a movie to review\n> ");
 			vector<unordered_map<string, string>> results = svr.search_movies(movie_name);
 			for (int i = 0; i < results.size(); i++) {
@@ -232,25 +270,27 @@ int main () {
 			}
 			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
 
+			// Step 2: give movie a score
 			double score = input_double("Give the movie a score out of 10\n> ", 0.0, 10.0);
-			// do {
-			// 	option = input_str("Type 1 to submit your review from a text file, or 2 to write the review in this window.\n> ");
-			// 	if (option == "1") {
-			// 		string filename = input_str("Enter path to the text file containg your review\n> ");
-			// 		ifstream review_file(filename);
-			// 		if (review_file.fail()) {
-			// 			cout << "\nSorry, " << filename << " does not exist.\n";
-			// 			continue;
-			// 		}
-					
-			// 	} 
-			// 	else if (option == "2") {
 
-			// 	}
-			// 	else {
-			// 		cout << "\nSorry, that was not a valid option.\n";
-			// 	}
-			// } while (option != "q")
+			// Step 3: write and submit review
+			int option;
+			string review;
+			do {
+				option = input_int("Type 1 to submit your review from a text file, or 2 to write the review in this window.\n> ", 1, 2);
+				if (option == 1) {
+					review = write_review_from_file();
+				} 
+				else {
+					review = write_review_in_terminal();
+				}
+			} while (option != 1 && option != 2);
+
+			svr.submit_review(
+				to_int(results.at(num).at("movie_id")),
+				review,
+				score
+			);
 		}
 
 		//# UPDATE A REVIEW

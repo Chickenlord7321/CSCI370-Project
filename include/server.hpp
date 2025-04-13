@@ -91,9 +91,6 @@ private:
 	Statement* signup_query;
 	Statement* submit_review_query;
 
-	// Helper
-	bool user_in_db(string username);
-
 	int get_next_user_id();
 	int get_next_review_id();
 

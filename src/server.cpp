@@ -203,8 +203,8 @@ bool Server::submit_review(const int movie_id, const string review, const double
 
 
 vector<unordered_map<string, string>> Server::search_movies(const string search_term) {
-	string search_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE '%" 
-						+ search_term + "%' ORDER BY movie_id DESC";
+	string search_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE LOWER('%" 
+						+ search_term + "%') ORDER BY movie_id DESC";
 	Statement* search_query = conn->createStatement(search_sql);
 	ResultSet* result = search_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
