@@ -189,7 +189,7 @@ bool Server::submit_review(const int movie_id, const string review, const double
 	rid.insert(0, 9 - rid.length(), '0');
 	submit_review_query->setString(1, rid);
 	submit_review_query->setString(2, curr_user);
-	submit_review_query->setString(3, movie_id);
+	submit_review_query->setInt(3, movie_id);
 	submit_review_query->setString(4, review);
 	submit_review_query->setDouble(5, score);
 	if (submit_review_query->executeUpdate()) {
