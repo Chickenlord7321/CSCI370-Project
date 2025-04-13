@@ -42,15 +42,15 @@ Server::Server() {
 						" WHERE review_id = :review_id";
 	search_your_reviews_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score"
 						" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id)"
-						" WHERE LOWER(title) LIKE LOWER(:search_term)"
-						" OR LOWER(review_text) LIKE LOWER(:search_term)" 
+						" WHERE LOWER(title) LIKE LOWER( ':search_term' )"
+						" OR LOWER(review_text) LIKE LOWER( ':search_term' )" 
 						" AND user_id = :u_id"
 						" ORDER BY title DESC";
 	find_review_sql = "SELECT review_id FROM Reviews WHERE user_id = :u_id AND movie_id = :m_id";
 	search_movies_sql = "SELECT * "
 						" FROM Movies"
-						" WHERE LOWER(title) LIKE LOWER(:search_term) "
-						" AND LOWER(overview) LIKE LOWER(:search_term)"
+						" WHERE LOWER(title) LIKE LOWER( ':search_term' ) "
+						" AND LOWER(overview) LIKE LOWER( ':search_term' )"
 						" ORDER BY movie_id DESC";
 
 	// Set statements to null
