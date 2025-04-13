@@ -265,7 +265,7 @@ int main () {
 			vector<unordered_map<string, string>> results;
 			// Catch exception in case user is not logged in
 			try {
-				results =  = svr.search_movies(movie_name);
+				results = svr.search_movies(movie_name);
 			} catch (ServerException& e) {
 				cout << "Sorry, please log in first.\n";
 				continue;
