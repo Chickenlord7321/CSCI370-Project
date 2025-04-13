@@ -234,6 +234,8 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 }
 
 void write_movies_to_html(vector<unordered_map<string, string>> results, const string filename) {
+	cout << "Writing movies to HTML...\n";
+	
 	ofstream file;
 	string file_path = "../Output/" + filename;
 	file.open(file_path);
