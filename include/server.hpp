@@ -86,12 +86,18 @@ private:
 	string signup_sql;
 	string submit_review_sql;
 	string update_review_sql;
+	string search_your_reviews_sql;
+	string find_review_sql;
+	string search_movies_sql;
 
 	// Query statements
 	Statement* get_user_id_query;
 	Statement* signup_query;
 	Statement* submit_review_query;
 	Statement* update_review_query;
+	Statement* search_your_reviews_query;
+	Statement* find_review_query;
+	Statement* search_movies_query;
 
 	int get_next_user_id();
 	int get_next_review_id();

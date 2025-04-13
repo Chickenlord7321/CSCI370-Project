@@ -21,15 +21,15 @@ Server::Server() {
 	// Init queries
 	get_user_id_sql = "SELECT user_id FROM Users WHERE username = :u AND password = :p";
 	signup_sql = "INSERT INTO Users VALUES(" 
-				" :user_id,"
+				" :u_id,"
 				" :uname,"
 				" :psswd,"
 				" CURRENT_DATE"
 				" )";
 	submit_review_sql = "INSERT INTO Reviews VALUES("
-						" :review_id,"
-						" :user_id,"
-						" :movie_id,"
+						" :r_id,"
+						" :u_id,"
+						" :m_id,"
 						" :r_text,"
 						" :your_score,"
 						" CURRENT_DATE,"
@@ -40,12 +40,23 @@ Server::Server() {
 						" your_score = :your_score,"
 						" last_update = CURRENT_DATE"
 						" WHERE review_id = :review_id";
+	search_your_reviews_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score"
+						" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id)"
+						" WHERE LOWER(title) LIKE LOWER(:search_term)"
+						" OR LOWER(review_text) LIKE LOWER(:search_term)" 
+						" AND user_id = :u_id"
+						" ORDER BY title DESC";
+	find_review_sql = "SELECT review_id FROM Reviews WHERE user_id = :u_id AND movie_id = :m_id";
+	search_movies_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE LOWER(:search_term) ORDER BY movie_id DESC"
 
 	// Set statements to null
 	get_user_id_query = nullptr;
 	signup_query = nullptr;
 	submit_review_query = nullptr;
 	update_review_query = nullptr;
+	search_your_reviews_query= nullptr;
+	find_review_query = nullptr;
+	search_movies_query = nullptr;
 }
 
 // Destructor
@@ -58,6 +69,9 @@ Server::~Server() {
 		conn->terminateStatement(signup_query);
 		conn->terminateStatement(submit_review_query);
 		conn->terminateStatement(update_review_query);
+		conn->terminateStatement(search_your_reviews_query);
+		conn->terminateStatement(find_review_query);
+		conm->terminateStatement(search_movies_query);
 		env->terminateConnection(conn);
 	}
 	Environment::terminateEnvironment(env);
@@ -144,6 +158,9 @@ bool Server::connect(const string username, const string password) {
 		signup_query = conn->createStatement(signup_sql);
 		submit_review_query = conn->createStatement(submit_review_sql);
 		update_review_query = conn->createStatement(update_review_sql);
+		search_your_reviews_query = conn->createStatement(search_your_reviews_sql);
+		find_review_query = conn->createStatement(find_review_sql);
+		search_movies_query = conn->createStatement(search_movies_sql);
 
 		return true;	// successful connection
 	} catch (SQLException & error) {
@@ -255,11 +272,9 @@ string Server::find_review_by_curr_user(const int movie_id) const {
 	if (curr_user == "") {
 		return "";
 	}
-
-	string sql = "SELECT review_id FROM Reviews WHERE user_id = '" + curr_user 
-				+ "' AND movie_id = " + to_string(movie_id);
-	Statement* query = conn->createStatement(sql);
-	ResultSet* result = query->executeQuery();
+	find_review_query->setString(1, curr_user);
+	find_review_query->setInt(2, movie_id);
+	ResultSet* result = find_review_query->executeQuery();
 	if (result->next()) {
 		return result->getString(1);
 	}
@@ -272,13 +287,11 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 	if (curr_user == "") {
 		throw ServerException("search_movies", "user not logged in");
 	}
-	string search_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE LOWER('%" 
-						+ search_term + "%') ORDER BY movie_id DESC";
-	Statement* search_query = conn->createStatement(search_sql);
-	ResultSet* result = search_query->executeQuery();
+	string match = "%" + search_term + "%";
+	search_movies_query->setString(match);
+	ResultSet* result = search_movies_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
 	search_query->closeResultSet(result);
-	conn->terminateStatement(search_query);
 	return search_result;
 }
 
@@ -287,16 +300,12 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 	if (curr_user == "") {
 		throw ServerException("search_your_reviews", "user not logged in");
 	}
-	string search_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score"
-						" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id)"
-						" WHERE LOWER(title) LIKE LOWER('%" 
-						+ search_term + "%') OR LOWER(review_text) LIKE LOWER('%" 
-						+ search_term + "%') AND user_id = '" + curr_user + "'"
-						" ORDER BY movie_id DESC";
-	Statement* search_query = conn->createStatement(search_sql);
-	ResultSet* result = search_query->executeQuery();
+	string match = "%" + search_term + "%";
+	search_your_reviews_query->setString(1, match);
+	search_your_reviews_query->setString(2, match);
+	search_your_reviews_query->setString(3, curr_user);
+	ResultSet* result = search_your_reviews_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_reviews(result);
 	search_query->closeResultSet(result);
-	conn->terminateStatement(search_query);
 	return search_result;
 }
