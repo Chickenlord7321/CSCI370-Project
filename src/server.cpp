@@ -1,14 +1,11 @@
 /**
  * Author: Caleb Bronn
- * Last Update: 12 Apr 2025
+ * Last Update: 13 Apr 2025
  * Title: Movie Review Database App Project
  * Class: CSCI 370
-
- * TODO: write header comments for each function!
  */
 
 #include "../include/server.hpp"
-// #include <regex>	// for string parsing
 
 // Constructor
 Server::Server() {
@@ -176,7 +173,7 @@ vector<unordered_map<string, string>> Server::list_reviews(ResultSet* result) {
  * PUBLIC SERVER FUNCTIONS *
  ***************************/
 
-//! Connect to the server
+// Connect to the server
 bool Server::connect(const string username, const string password) {
 	env = Environment::createEnvironment();
 	try {
@@ -186,7 +183,7 @@ bool Server::connect(const string username, const string password) {
 		next_user_id = 1 + get_next_user_id();
 		next_review_id = 1 + get_next_review_id();
 
-		//! Create statements for each member function
+		// Create statements for each member function
 		get_user_id_query = conn->createStatement(get_user_id_sql);
 		signup_query = conn->createStatement(signup_sql);
 		submit_review_query = conn->createStatement(submit_review_sql);
@@ -206,7 +203,7 @@ bool Server::connect(const string username, const string password) {
 	}
 }
 
-//! LOGIN
+// LOGIN
 bool Server::login_successful(const string username, const string password) {
 	get_user_id_query->setString(1, username);
 	get_user_id_query->setString(2, password);
@@ -221,12 +218,12 @@ bool Server::login_successful(const string username, const string password) {
 	}
 }
 
-//! LOGOUT
+// LOGOUT
 void Server::logout() {
 	curr_user = "";
 }
 
-//! SIGNUP 
+// SIGNUP 
 bool Server::signup_successful(const string username, const string password) {
 	// Attempting a login does the same thing as checking if the user account exists already.
 	if (login_successful(username, password)) {
@@ -234,23 +231,6 @@ bool Server::signup_successful(const string username, const string password) {
 		return false;
 	} 
 	else {
-		//! Uncomment when project complete 
-		// Validate username: letters, numbers, any of !@#$%^&*_, and between 1 and 30 chars long
-		// std::regex username_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,30}");
-		// if (!std::regex_match(username, username_format)) {
-		// 	cout << "Your username is too long, or contains characters that are not acceptable. "
-		// 		<< "\nPlease keep your username under 30 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-		// 	return false;
-		// }
-		// Validate password: letters, numbers, any of !@#$%^&*_, and between 1 and 100 chars long
-		// std::regex password_format("([a-z]|[A-Z]|\\d|[!@#$%^&*_]){1,100}");
-		// if (!std::regex_match(password, password_format)) {
-		// 	cout << "Your password is too long, or contains characters that are not acceptable. "
-		// 		<< "\nPlease keep your password under 100 characters, and use only letters, numbers, and any of the following: !@#$%^&*_\n";
-		// 	return false;
-		// }
-		// If username + password passes checks, insert new user into database
-
 		string uid = to_string(next_user_id);
 		uid.insert(0, 6 - uid.length(), '0');
 		signup_query->setString(1, uid);
@@ -264,7 +244,7 @@ bool Server::signup_successful(const string username, const string password) {
 	}
 }
 
-//! SUBMIT REVIEW
+// SUBMIT REVIEW
 bool Server::submit_review(const int movie_id, const string review, const double score) {
 	if (curr_user == "") {
 		cout << "\nYou are not logged in. Please login first.\n";
@@ -289,7 +269,7 @@ bool Server::submit_review(const int movie_id, const string review, const double
 	return true;
 }
 
-//! UPDATE REVIEW
+// UPDATE REVIEW
 bool Server::update_review(const string review_id, const string review, const double score, const int movie_id) {
 	if (curr_user == "") {
 		cout << "\nYou are not logged in. Please login first.\n";
@@ -322,7 +302,7 @@ string Server::find_review_by_curr_user(const int movie_id) const {
 }
 
 
-//! SEARCH MOVIES BY MOVIE NAME
+// SEARCH MOVIES BY MOVIE NAME
 vector<unordered_map<string, string>> Server::search_movies(const string search_term) {
 	string match = "%" + search_term + "%";
 	search_movies_query->setString(1, match);
@@ -333,7 +313,7 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 	return search_result;
 }
 
-//! SEARCH YOUR REVIEWS BY SEARCH TERM
+// SEARCH YOUR REVIEWS BY SEARCH TERM
 vector<unordered_map<string, string>> Server::search_your_reviews(const string search_term) {
 	if (curr_user == "") {
 		throw ServerException("search_your_reviews", "user not logged in");
@@ -349,7 +329,7 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 }
 
 
-//! SEARCH ALL REVIEWS BY SEARCH TERM
+// SEARCH ALL REVIEWS BY SEARCH TERM
 vector<unordered_map<string, string>> Server::search_all_reviews(const string search_term) {
 	string match = "%" + search_term + "%";
 	search_all_reviews_query->setString(1, match);
@@ -361,7 +341,7 @@ vector<unordered_map<string, string>> Server::search_all_reviews(const string se
 }
 
 
-
+// List all reviews
 vector<unordered_map<string, string>> Server::get_all_reviews() {
 	string sql = "SELECT review_id, R.user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, poster_path, username"
 				" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id) JOIN Users U ON (U.user_id = R.user_id)"
@@ -374,6 +354,7 @@ vector<unordered_map<string, string>> Server::get_all_reviews() {
 	return all_reviews;
 }
 
+// List all movies
 vector<unordered_map<string, string>> Server::get_all_movies() {
 	string sql = "SELECT * FROM Movies ORDER BY movie_id ASC";
 	Statement* query = conn->createStatement(sql);
@@ -384,6 +365,8 @@ vector<unordered_map<string, string>> Server::get_all_movies() {
 	return all_movies;
 }
 
+
+// List all movies that don't have a review
 vector<unordered_map<string, string>> Server::get_reviewless_movies() {
 	ResultSet* result = reviewless_movies_query->executeQuery();
 	vector<unordered_map<string, string>> movies_w_no_reviews = list_movies(result);
