@@ -183,6 +183,10 @@ bool Server::signup_successful(const string username, const string password) {
 
 
 bool Server::submit_review(const int movie_id, const string review, const double score) {
+	if (curr_user == "") {
+		cout << "\nYou are not logged in. Please login first.\n";
+		return false;
+	}
 	string rid = to_string(next_review_id);
 	rid.insert(0, 9 - rid.length(), '0');
 	submit_review_query->setString(1, rid);
@@ -200,8 +204,7 @@ bool Server::submit_review(const int movie_id, const string review, const double
 
 vector<unordered_map<string, string>> Server::search_movies(const string search_term) {
 	if (curr_user == "") {
-		cout << "\nYou are not logged in. Please login first.\n";
-		return false;
+		throw ServerException("search_movies", "user not logged in");
 	}
 	string search_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE LOWER('%" 
 						+ search_term + "%') ORDER BY movie_id DESC";

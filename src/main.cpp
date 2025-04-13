@@ -262,7 +262,15 @@ int main () {
 		else if (command == "4") {
 			// Step 1: search for a movie to review
 			string movie_name = input_str("Search for a movie to review\n> ");
-			vector<unordered_map<string, string>> results = svr.search_movies(movie_name);
+			vector<unordered_map<string, string>> results;
+			// Catch exception in case user is not logged in
+			try {
+				results =  = svr.search_movies(movie_name);
+			} catch (ServerException& e) {
+				cout << "Sorry, please log in first.\n";
+				continue;
+			}
+			// Print out all movies that match the search term
 			for (int i = 0; i < results.size(); i++) {
 				cout << i << "\n" 
 					<< "\t" << results.at(i).at("title") << endl

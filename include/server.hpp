@@ -24,43 +24,43 @@
  * when something goes wrong in the Heap. All the implementation
  * for this class is done inline.
  */
-// class ServerException {
-// private:
-// 	string location;
-// 	string message;
+class ServerException {
+private:
+	string location;
+	string message;
 	
-// public:
+public:
 
-// 	/**
-//  	* Creates a ServerException object.
-//  	* @param where_thrown The origin of the member function that threw the exception.
-//  	* @param msg An indication of what the problem was that triggered the exception.
-//  	*/
-// 	ServerException(const string& where_thrown, const string& msg) {
-// 		location = where_thrown;
-// 		message = msg;
-// 	}
+	/**
+ 	* Creates a ServerException object.
+ 	* @param where_thrown The origin of the member function that threw the exception.
+ 	* @param msg An indication of what the problem was that triggered the exception.
+ 	*/
+	ServerException(const string& where_thrown, const string& msg) {
+		location = where_thrown;
+		message = msg;
+	}
 
-// 	/** 
-// 	 * Provides a string version of the ServerException object.
-// 	 * @return A debug message providing you with the location and a description of the 
-// 	 * problem.
-//  	*/
-// 	string to_string() const {
-// 		return "*** ServerException in "+ location + ": "+ message;
-// 	}
+	/** 
+	 * Provides a string version of the ServerException object.
+	 * @return A debug message providing you with the location and a description of the 
+	 * problem.
+ 	*/
+	string to_string() const {
+		return "*** ServerException in "+ location + ": "+ message;
+	}
 
-// 	/**
-//  	* Allows for a direct stream of the error message using the << operator.
-//  	* @param out The ostream object.
-//  	* @param he The ServerException to pass into the output stream.
-//  	* @return The ostream object that will print the debug info to the console.
-//  	*/
-//  	friend ostream& operator << (ostream& out, const ServerException& e) {
-//  		out << e.to_string();
-// 		return out;
-// 	}
-// }; // end of ServerException
+	/**
+ 	* Allows for a direct stream of the error message using the << operator.
+ 	* @param out The ostream object.
+ 	* @param he The ServerException to pass into the output stream.
+ 	* @return The ostream object that will print the debug info to the console.
+ 	*/
+ 	friend ostream& operator << (ostream& out, const ServerException& e) {
+ 		out << e.to_string();
+		return out;
+	}
+}; // end of ServerException
 
 
 /**
