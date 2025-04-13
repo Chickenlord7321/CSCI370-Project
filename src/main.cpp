@@ -421,9 +421,34 @@ int main () {
 				<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
 				<< filename << " into your web browser!\n";
 		}
+		
 		//# LOOK UP MOVIES
 		else if (command == 7) {
-			cout << "look up movies\n";
+			// cout << "Select one of the following options by number:\n"
+			// 	<< "\t1: all movies\n"
+			// 	<< "\t2: recently released\n"
+			// 	<< "\t3: having minimum/maximum stars\n"
+			// 	<< "\t4: have no reviews\n"
+			// 	<< "\t5: by search term\n";
+			// int option = input_int("> ", 1, 5);
+			// string filename;
+			// switch (option) {
+			// 	case 1:
+			// 		filename = "all.html";
+			// 		write_reviews_to_html(svr.list_all_reviews(), "all.html");
+			// 		break;
+			// 	case 2:
+			// 		break;
+			// 	case 3:
+			// 		break;
+			// 	case 4:
+			// 		break;
+			// 	case 5:
+			// 		break;
+			// }
+			// cout << "Output written to: Output/" << filename
+			// 	<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
+			// 	<< filename << " into your web browser!\n";
 		}
 		//# INVALID COMMAND
 		else {
