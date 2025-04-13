@@ -314,7 +314,7 @@ int main () {
 			if (!svr.submit_review(movie_id, review, score)) {
 				string update_instead = to_lower(input_str("Would you like to update your review instead? Y/N\n> "));
 				if (update_instead == "y" || update_instead == "yes") {
-					svr.update_review(find_review_by_curr_user(movie_id), review, score);
+					svr.update_review(svr.find_review_by_curr_user(movie_id), review, score);
 				}
 			}
 
