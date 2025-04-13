@@ -191,7 +191,7 @@ string write_review_in_terminal(const string original_review = "") {
 
 	//! DEBUG
 	cout << "\nCTRL + D works!\n";
-	cout << "[" new_review << "]" << endl;
+	cout << "[" << new_review << "]" << endl;
 
 	return new_review;
 }
