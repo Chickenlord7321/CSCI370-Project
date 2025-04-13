@@ -182,7 +182,7 @@ string write_review_in_terminal(const string original_review = "") {
 		cout << "Here is your original review:\n";
 		cout << original_review << endl << endl;
 	}
-	cout << "Write your review here. Press CTRL + D to end the review:\n";
+	cout << "Write your review here. Press Enter and then CTRL + D (or CTRL + Z on Windows) to end the review:\n";
 
 	// I found out how to get multi-line inputs from this Stack Overflow post:
 	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
@@ -192,6 +192,7 @@ string write_review_in_terminal(const string original_review = "") {
 	//! DEBUG
 	cout << "\nCTRL + D works!\n";
 	cout << "[" << new_review << "]" << endl;
+	cout << static_cast<int>(new_review[new_review.length() - 1]) << endl;
 
 	return new_review;
 }
