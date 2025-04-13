@@ -47,7 +47,7 @@ Server::Server() {
 						" AND user_id = :u_id"
 						" ORDER BY title DESC";
 	find_review_sql = "SELECT review_id FROM Reviews WHERE user_id = :u_id AND movie_id = :m_id";
-	search_movies_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE LOWER(:search_term) ORDER BY movie_id DESC"
+	search_movies_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE LOWER(:search_term) ORDER BY movie_id DESC";
 
 	// Set statements to null
 	get_user_id_query = nullptr;
@@ -71,7 +71,7 @@ Server::~Server() {
 		conn->terminateStatement(update_review_query);
 		conn->terminateStatement(search_your_reviews_query);
 		conn->terminateStatement(find_review_query);
-		conm->terminateStatement(search_movies_query);
+		conn->terminateStatement(search_movies_query);
 		env->terminateConnection(conn);
 	}
 	Environment::terminateEnvironment(env);
