@@ -216,7 +216,6 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 	file.open(filename);
 	if (!file.is_open()) {
 		cout << "File did not open\n";
-		cout << full_filename << endl;
 	}
 	file << HTML_HEADER;
 	for (int i = 0; i < results.size(); i++) {
