@@ -213,8 +213,9 @@ int main () {
 	cout << "Credentials verified!\n";
 	
 
-	string command;
-	while (command != "q") {
+	int command;
+	bool app_running = true;
+	while (app_running) {
 		cout << "\nSelect one of the following commands by number.\n"
 			<< "Or, type 'Q' at any time to quit:\n"
 			<< "1:\tlogin\n"
@@ -224,10 +225,10 @@ int main () {
 			<< "5:\tupdate a review\n"
 			<< "6:\tlook up reviews\n"
 			<< "7:\tlook up movies\n";
-		command = to_lower(input_str("> "));
+		command = input_int("> ", 1, 7);
 		
 		//# LOGIN
-		if (command == "1") {
+		if (command == 1) {
 			string username;
 			string password;
 			bool logged_in;
@@ -245,13 +246,13 @@ int main () {
 		}
 
 		//# LOGOUT
-		else if (command == "2") {
+		else if (command == 2) {
 			svr.logout();
 			cout << "\nLogout successful!\n";
 		}
 
 		//# SIGN UP
-		else if (command == "3") {
+		else if (command == 3) {
 			string username;
 			string password;
 			bool signed_up;
@@ -263,7 +264,7 @@ int main () {
 		}
 
 		//# WRITE A REVIEW
-		else if (command == "4") {
+		else if (command == 4) {
 			// Step 1: search for a movie to review
 			string movie_name = input_str("Search for a movie to review\n> ");
 			vector<unordered_map<string, string>> results;
@@ -307,15 +308,15 @@ int main () {
 		}
 
 		//# UPDATE A REVIEW
-		else if (command == "5") {
+		else if (command == 5) {
 			cout << "update a review\n";
 		}
 		//# LOOK UP REVIEWS
-		else if (command == "6") {
+		else if (command == 6) {
 			cout << "look up reviews\n";
 		}
 		//# LOOK UP MOVIES
-		else if (command == "7") {
+		else if (command == 7) {
 			cout << "look up movies\n";
 		}
 		//# INVALID COMMAND

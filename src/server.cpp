@@ -182,11 +182,10 @@ bool Server::signup_successful(const string username, const string password) {
 
 
 bool Server::submit_review(const int movie_id, const string review, const double score) {
-	if (curr_user == "") {
+	if (curr_user == "") {	//! or current user has already written a review for this film
 		cout << "\nYou are not logged in. Please login first.\n";
 		return false;
 	}
-	cout << submit_review_query->getSQL() << endl;
 	string rid = to_string(next_review_id);
 	rid.insert(0, 9 - rid.length(), '0');
 	submit_review_query->setString(1, rid);
