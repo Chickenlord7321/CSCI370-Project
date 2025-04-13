@@ -319,7 +319,7 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 }
 
 vector<unordered_map<string, string>> Server::list_all_reviews() {
-	string sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, username"
+	string sql = "SELECT review_id, R.user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, username"
 				" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id) JOIN Users U ON (U.user_id = R.user_id)"
 				" ORDER BY review_id ASC";
 	Statement* query = conn->createStatement(sql);
