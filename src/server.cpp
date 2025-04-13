@@ -65,7 +65,7 @@ Server::Server() {
 						" WHERE M.movie_id = R.movie_id)"
 						" WHERE M.movie_id = :m_id";
 	reviewless_movies_sql = "SELECT * FROM Movies M WHERE NOT EXISTS ("
-						"SELECT * FROM Reviews R WHERE R.movie_id = M.movie_id)"
+						"SELECT * FROM Reviews R WHERE R.movie_id = M.movie_id)";
 
 	// Set statements to null
 	get_user_id_query = nullptr;
