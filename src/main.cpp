@@ -193,6 +193,10 @@ string write_review_in_terminal(const string original_review = "") {
 	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
 	string new_review;
 	getline(cin, new_review, static_cast<char>(EOF));	// EOF is End Of File (CTRL + D on Linux)
+
+	// Clear out buffer, VERY IMPORTANT, I kept getting infinite while loops and input problems without this!
+	cin.ignore(10, '\n');
+	cin.ignore(10, static_cast<char>(EOF));
 	return new_review;
 }
 
