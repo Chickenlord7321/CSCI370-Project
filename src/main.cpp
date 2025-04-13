@@ -88,13 +88,18 @@ string to_upper(string s) {
  ****************************/
 
 string input_str(const string msg) {
-	string input = "q";
+	string input = "";
 	cout << msg;
 	getline(cin, input);
 	if (to_lower(input) == "q") {
 		cout << "Goodbye!" << endl;
 		exit(0);
 	}
+
+	// Clear buffer
+	string throwaway;
+	getline(cin, throwaway);
+	cin.clear();
 	return input;
 }
 
