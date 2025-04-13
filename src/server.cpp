@@ -64,6 +64,8 @@ Server::Server() {
 						" SELECT AVG(your_score) FROM Reviews R"
 						" WHERE M.movie_id = R.movie_id)"
 						" WHERE M.movie_id = :m_id";
+	reviewless_movies_sql = "SELECT * FROM Movies M WHERE NOT EXISTS ("
+						"SELECT * FROM Reviews R WHERE R.movie_id = M.movie_id)"
 
 	// Set statements to null
 	get_user_id_query = nullptr;
@@ -75,6 +77,7 @@ Server::Server() {
 	find_review_query = nullptr;
 	search_movies_query = nullptr;
 	update_avg_score_query = nullptr;
+	reviewless_movies_query = nullptr;
 }
 
 // Destructor
@@ -92,6 +95,7 @@ Server::~Server() {
 		conn->terminateStatement(find_review_query);
 		conn->terminateStatement(search_movies_query);
 		conn->terminateStatement(update_avg_score_query);
+		conn->terminateStatement(reviewless_movies_query);
 		env->terminateConnection(conn);
 	}
 	Environment::terminateEnvironment(env);
@@ -192,6 +196,7 @@ bool Server::connect(const string username, const string password) {
 		find_review_query = conn->createStatement(find_review_sql);
 		search_movies_query = conn->createStatement(search_movies_sql);
 		update_avg_score_query = conn->createStatement(update_avg_score_sql);
+		reviewless_movies_query = conn->createStatement(reviewless_movies_sql);
 
 		return true;	// successful connection
 	} catch (SQLException & error) {
@@ -360,7 +365,7 @@ vector<unordered_map<string, string>> Server::search_all_reviews(const string se
 
 
 
-vector<unordered_map<string, string>> Server::list_all_reviews() {
+vector<unordered_map<string, string>> Server::get_all_reviews() {
 	string sql = "SELECT review_id, R.user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, poster_path, username"
 				" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id) JOIN Users U ON (U.user_id = R.user_id)"
 				" ORDER BY review_id ASC";
@@ -372,7 +377,7 @@ vector<unordered_map<string, string>> Server::list_all_reviews() {
 	return all_reviews;
 }
 
-vector<unordered_map<string, string>> Server::list_all_movies() {
+vector<unordered_map<string, string>> Server::get_all_movies() {
 	string sql = "SELECT * FROM Movies ORDER BY movie_id ASC";
 	Statement* query = conn->createStatement(sql);
 	ResultSet* result = query->executeQuery();
@@ -380,4 +385,11 @@ vector<unordered_map<string, string>> Server::list_all_movies() {
 	query->closeResultSet(result);
 	conn->terminateStatement(query);
 	return all_movies;
+}
+
+vector<unordered_map<string, string>> Server::get_reviewless_movies() {
+	ResultSet* result = reviewless_movies_query->executeQuery();
+	vector<unordered_map<string, string>> movies_w_no_reviews = list_movies(result);
+	reviewless_movies_query->closeResultSet(result);
+	return movies_w_no_reviews;
 }

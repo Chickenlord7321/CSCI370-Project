@@ -91,6 +91,7 @@ private:
 	string find_review_sql;
 	string search_movies_sql;
 	string update_avg_score_sql;
+	string reviewless_movies_sql;
 
 	// Query statements
 	Statement* get_user_id_query;
@@ -102,6 +103,7 @@ private:
 	Statement* find_review_query;
 	Statement* search_movies_query;
 	Statement* update_avg_score_query;
+	Statement* reviewless_movies_query;
 
 	int get_next_user_id();
 	int get_next_review_id();
@@ -146,9 +148,11 @@ public:
 
 	vector<unordered_map<string, string>> search_all_reviews(const string search_term);
 
-	vector<unordered_map<string, string>> list_all_movies();
+	vector<unordered_map<string, string>> get_all_movies();
 
-	vector<unordered_map<string, string>> list_all_reviews();
+	vector<unordered_map<string, string>> get_all_reviews();
+
+	vector<unordered_map<string, string>> get_reviewless_movies();
 };
 
 #endif

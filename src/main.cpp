@@ -430,13 +430,13 @@ int main () {
 				<< "\t1: view all reviews\n"
 				<< "\t2: view reviews written by you\n"
 				<< "\t3: view reviews by search term\n";
-			int option = input_int("> ", 1, 5);
+			int option = input_int("> ", 1, 3);
 			string filename;
 			string search_term;
 			switch (option) {
 				case 1:
-					filename = "all.html";
-					write_reviews_to_html(svr.list_all_reviews(), filename);
+					filename = "all_reviews.html";
+					write_reviews_to_html(svr.get_all_reviews(), filename);
 					break;
 				case 2:
 					search_term = input_str("Enter your search term:\n> ");
@@ -456,31 +456,31 @@ int main () {
 
 		//# LOOK UP MOVIES
 		else if (command == 7) {
-			// cout << "Select one of the following options by number:\n"
-			// 	<< "\t1: all movies\n"
-			// 	<< "\t2: recently released\n"
-			// 	<< "\t3: having minimum/maximum stars\n"
-			// 	<< "\t4: have no reviews\n"
-			// 	<< "\t5: by search term\n";
-			// int option = input_int("> ", 1, 5);
-			// string filename;
-			// switch (option) {
-			// 	case 1:
-			// 		filename = "all.html";
-			// 		write_reviews_to_html(svr.list_all_reviews(), "all.html");
-			// 		break;
-			// 	case 2:
-			// 		break;
-			// 	case 3:
-			// 		break;
-			// 	case 4:
-			// 		break;
-			// 	case 5:
-			// 		break;
-			// }
-			// cout << "Output written to: Output/" << filename
-			// 	<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
-			// 	<< filename << " into your web browser!\n";
+			cout << "Select one of the following options by number:\n"
+				<< "\t1: view all movies\n"
+				<< "\t2: have no reviews\n"
+				<< "\t3: by search term\n";
+			int option = input_int("> ", 1, 3);
+			string filename;
+			string search_term;
+			switch (option) {
+				case 1:
+					filename = "all_movies.html";
+					write_movies_to_html(svr.get_all_movies(), filename);
+					break;
+				case 2:
+					filename = "movies_with_no_reviews.html";
+					write_movies_to_html(svr.search_your_reviews(search_term), filename);	//!
+					break;
+				case 3:
+					search_term = input_str("Enter your search term:\n> ");
+					filename = search_term + ".html";
+					write_movies_to_html(svr.search_movies(search_term), filename);
+					break;
+			}
+			cout << "Output written to: Output/" << filename
+				<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
+				<< filename << " into your web browser!\n";
 		}
 		//# INVALID COMMAND
 		else {
