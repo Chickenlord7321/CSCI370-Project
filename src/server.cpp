@@ -40,7 +40,7 @@ Server::Server() {
 						" your_score = :your_score,"
 						" last_update = CURRENT_DATE"
 						" WHERE review_id = :review_id";
-	search_your_reviews_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, username"
+	search_your_reviews_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, poster_path, username"
 						" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id) JOIN Users U ON (U.user_id = R.user_id)"
 						" WHERE ( LOWER(title) LIKE LOWER(:search_term)"
 						" OR LOWER(review_text) LIKE LOWER(:search_term) )"
@@ -136,7 +136,8 @@ vector<unordered_map<string, string>> Server::list_reviews(ResultSet* result) {
 			{"title", result->getString(8)},
 			{"tmdb_score", result->getString(9)},
 			{"user_avg_score", result->getString(10)},
-			{"username", result->getString(11)}
+			{"poster_path", result->getString(11)},
+			{"username", result->getString(12)}
 		};
 		data.push_back(entry);
 	}
@@ -319,7 +320,7 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 }
 
 vector<unordered_map<string, string>> Server::list_all_reviews() {
-	string sql = "SELECT review_id, R.user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, username"
+	string sql = "SELECT review_id, R.user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, poster_path, username"
 				" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id) JOIN Users U ON (U.user_id = R.user_id)"
 				" ORDER BY review_id ASC";
 	Statement* query = conn->createStatement(sql);
