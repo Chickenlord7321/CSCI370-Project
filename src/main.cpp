@@ -419,7 +419,7 @@ int main () {
 			}
 			cout << "Output written to: Output/" << filename
 				<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
-				<< filename " into your web browser!\n";
+				<< filename << " into your web browser!\n";
 		}
 		//# LOOK UP MOVIES
 		else if (command == 7) {
