@@ -294,10 +294,17 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 		throw ServerException("search_movies", "user not logged in");
 	}
 	string match = "%" + search_term + "%";
+
+	//! DEBUG 
+	cout << "search term is:" << match << endl;
+
 	search_movies_query->setString(1, match);
 	search_movies_query->setString(2, match);
 	ResultSet* result = search_movies_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
+
+	cout << "SQL:" << search_movies_query->getSQL() << endl;
+
 	search_movies_query->closeResultSet(result);
 	return search_result;
 }
@@ -308,10 +315,19 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 		throw ServerException("search_your_reviews", "user not logged in");
 	}
 	string match = "%" + search_term + "%";
+
+	//! DEBUG 
+	cout << "search term is:" << match << endl;
+
 	search_your_reviews_query->setString(1, match);
 	search_your_reviews_query->setString(2, match);
 	search_your_reviews_query->setString(3, curr_user);
 	ResultSet* result = search_your_reviews_query->executeQuery();
+
+
+	//! DEBUG
+	cout << "SQL:" << search_your_reviews_query->getSQL() << endl;
+
 	vector<unordered_map<string, string>> search_result = list_reviews(result);
 	search_your_reviews_query->closeResultSet(result);
 	return search_result;
