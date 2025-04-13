@@ -220,8 +220,8 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 	}
 	file << HTML_HEADER;
 	for (int i = 0; i < results.size(); i++) {
-		file << "<div class='container'>\n"; 
-			<< "<span class='index'>" << i << "</span>";
+		file << "<div class='container'>\n"
+			<< "<span class='index'>" << i << "</span>"
 			<< "<h2 class='title'>" << results.at(i).at("title") << "</h2>\n"
 			<< "<h3 class='date'>" << results.at(i).at("written") << "</h3>\n"
 			<< "<h3 class='author'>" << results.at(i).at("username") << "</h3>\n"
@@ -245,8 +245,8 @@ void write_movies_to_html(vector<unordered_map<string, string>> results, const s
 	}
 	file << HTML_HEADER;
 	for (int i = 0; i < results.size(); i++) {
-		file << "<div class='container'>\n"; 
-			<< "<span class='index'>" << i << "</span>";
+		file << "<div class='container'>\n"
+			<< "<span class='index'>" << i << "</span>"
 			<< "<h2 class='title'>" << results.at(i).at("title") << "</h2>\n"
 			<< "<h3 class='date'>" << results.at(i).at("release_date") << "</h3>\n"
 			<< "<h3 class='original_lang'>" << results.at(i).at("lang") << "</h3>\n"
