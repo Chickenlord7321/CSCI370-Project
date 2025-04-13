@@ -77,20 +77,21 @@ int Server::get_next_review_id() {
 }
 
 vector<unordered_map<string, string>> Server::list_movies(ResultSet* result) {
-	int i = 0;
 	vector<unordered_map<string, string>> data;
 	while (result->next()) {
-		cout << "Movie no.: " << i << endl;
-		data.at(i) = {{"movie_id", result->getString(1)}};
-		data.at(i) = {{"title", result->getString(2)}};
-		data.at(i) = {{"overview", result->getString(3)}};
-		data.at(i) = {{"lang", result->getString(4)}};
-		data.at(i) = {{"bg_path", result->getString(5)}};
-		data.at(i) = {{"poster_path", result->getString(6)}};
-		data.at(i) = {{"tmdb_score", result->getString(7)}};
-		data.at(i) = {{"user_avg_score", result->getString(8)}};
-		data.at(i) = {{"release_date", result->getString(9)}};
-		i++;
+		cout << "Adding movies to vector-map...\n";
+		unordered_map<string, string> entry = {
+			{"movie_id", result->getString(1)},
+			{"title", result->getString(2)},
+			{"overview", result->getString(3)},
+			{"lang", result->getString(4)},
+			{"bg_path", result->getString(5)},
+			{"poster_path", result->getString(6)},
+			{"tmdb_score", result->getString(7)},
+			{"user_avg_score", result->getString(8)},
+			{"release_date", result->getString(9)}
+		};
+		data.push_back(entry);
 	}
 	return data;
 }
