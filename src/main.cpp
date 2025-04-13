@@ -213,7 +213,10 @@ string write_review_in_terminal(const string original_review = "") {
 
 void write_reviews_to_html(vector<unordered_map<string, string>> results, const string filename) {
 	ofstream file;
-	file.open("Output/" + filename, ios::out);
+	file.open("./Output/" + filename, ios::out);
+	if (!file.is_open()) {
+		cout << "File did not open\n";
+	}
 	file << HTML_HEADER;
 	for (int i = 0; i < results.size(); i++) {
 		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>"
