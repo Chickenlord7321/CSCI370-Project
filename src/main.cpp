@@ -219,7 +219,7 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 			<< "<h3 class='date'>" << results.at(i).at("written") << "</h3>"
 			<< "<h3 class='author'>" << results.at(i).at("username") << "</h3>"
 			<< "<p class='score' id='user'>" << results.at(i).at("your_score") << "</p>"
-			<< "<p class='score' id='avg'>" << results.at(i).at("user_avg-score") << "</p>"
+			<< "<p class='score' id='avg'>" << results.at(i).at("user_avg_score") << "</p>"
 			<< "<p class='score' id=tmdb'>" << results.at(i).at("tmdb_score") << "</p>"
 			<< "<p class='date'>" << results.at(i).at("review_text") << "</p>"
 			<< "<img src='" << results.at(i).at("poster_path") << "'>";
@@ -421,7 +421,7 @@ int main () {
 				<< "\nTo view the output, copy the 'Output' folder to your machine and drag " 
 				<< filename << " into your web browser!\n";
 		}
-		
+
 		//# LOOK UP MOVIES
 		else if (command == 7) {
 			// cout << "Select one of the following options by number:\n"
