@@ -283,7 +283,7 @@ bool Server::submit_review(const int movie_id, const string review, const double
 }
 
 //! UPDATE REVIEW
-bool Server::update_review(const string review_id, const string review, const double score) {
+bool Server::update_review(const string review_id, const string review, const double score, const int movie_id) {
 	if (curr_user == "") {
 		cout << "\nYou are not logged in. Please login first.\n";
 		return false;

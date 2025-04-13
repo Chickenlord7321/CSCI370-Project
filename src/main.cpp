@@ -367,7 +367,7 @@ int main () {
 			if (!svr.submit_review(movie_id, review, score)) {
 				string update_instead = to_lower(input_str("Would you like to update your review instead? Y/N\n> "));
 				if (update_instead == "y" || update_instead == "yes") {
-					svr.update_review(svr.find_review_by_curr_user(movie_id), review, score);
+					svr.update_review(svr.find_review_by_curr_user(movie_id), review, score, movie_id);
 				}
 			}
 
@@ -416,7 +416,12 @@ int main () {
 			}
 
 			// Finally, update the review
-			svr.update_review(results.at(num).at("review_id"), review, score);
+			svr.update_review(
+				results.at(num).at("review_id"), 
+				review, 
+				score, 
+				stoi(results.at(num).at("movie_id"))
+			);
 		}
 
 		//# LOOK UP REVIEWS

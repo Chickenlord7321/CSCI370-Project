@@ -135,7 +135,7 @@ public:
 
 	bool submit_review(const int movie_id, const string review, const double score);
 
-	bool update_review(const string review_id, const string review, const double score);
+	bool update_review(const string review_id, const string review, const double score, const int movie_id);
 
 	string find_review_by_curr_user(const int movie_id) const;
 
