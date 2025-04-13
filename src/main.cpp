@@ -95,11 +95,6 @@ string input_str(const string msg) {
 		cout << "Goodbye!" << endl;
 		exit(0);
 	}
-
-	// Clear buffer
-	string throwaway;
-	getline(cin, throwaway);
-	cin.clear();
 	return input;
 }
 
@@ -179,6 +174,11 @@ string write_review_from_file() {
 
 	string new_review;
 	getline(review_file, new_review, static_cast<char>(EOF));
+
+	// Clear buffer
+	string throwaway;
+	getline(cin, throwaway);
+	cin.clear();
 	return new_review;
 }
 
