@@ -89,7 +89,7 @@ vector<unordered_map<string, string>> Server::list_movies(ResultSet* result) {
 			{"poster_path", result->getString(6)},
 			{"tmdb_score", result->getString(7)},
 			{"user_avg_score", result->getString(8)},
-			{"release_date", result->getDate(9).toText()}
+			{"release_date", result->getDate(9).toText("YYYY-MON-DD")}
 		};
 		data.push_back(entry);
 	}
