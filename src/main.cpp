@@ -179,11 +179,11 @@ string write_review_from_file() {
 }
 
 string write_review_in_terminal(const string original_review = "") {
-	if (!original_review == "") {
+	if (original_review != "") {
 		cout << "Here is your original review:\n";
 		cout << original_review << endl;
 	}
-	cout << "Write your review here. Press CTRL + D to end the review:\n"
+	cout << "Write your review here. Press CTRL + D to end the review:\n";
 
 	// I found out how to get multi-line inputs from this Stack Overflow post:
 	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
@@ -287,7 +287,7 @@ int main () {
 			} while (option != 1 && option != 2);
 
 			svr.submit_review(
-				to_int(results.at(num).at("movie_id")),
+				stoi(results.at(num).at("movie_id")),
 				review,
 				score
 			);
