@@ -213,7 +213,8 @@ string write_review_in_terminal(const string original_review = "") {
 
 void write_reviews_to_html(vector<unordered_map<string, string>> results, const string filename) {
 	ofstream file;
-	file.open("./Output/" + filename, ios::out);
+	string full_filename = "./Output/" + filename;
+	file.open(full_filename);
 	if (!file.is_open()) {
 		cout << "File did not open\n";
 	}
