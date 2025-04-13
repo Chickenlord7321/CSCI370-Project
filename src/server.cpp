@@ -79,7 +79,6 @@ int Server::get_next_review_id() {
 vector<unordered_map<string, string>> Server::list_movies(ResultSet* result) {
 	vector<unordered_map<string, string>> data;
 	while (result->next()) {
-		cout << "Adding movies to vector-map...\n";
 		unordered_map<string, string> entry = {
 			{"movie_id", result->getString(1)},
 			{"title", result->getString(2)},
