@@ -432,18 +432,19 @@ int main () {
 				<< "\t3: view reviews by search term\n";
 			int option = input_int("> ", 1, 5);
 			string filename;
+			string search_term;
 			switch (option) {
 				case 1:
 					filename = "all.html";
 					write_reviews_to_html(svr.list_all_reviews(), filename);
 					break;
 				case 2:
-					string search_term = input_str("Enter your search term:\n> ");
+					search_term = input_str("Enter your search term:\n> ");
 					filename = "your_reviews.html";
 					write_reviews_to_html(svr.search_your_reviews(search_term), filename);
 					break;
 				case 3:
-					string search_term = input_str("Enter your search term:\n> ");
+					search_term = input_str("Enter your search term:\n> ");
 					filename = search_term + ".html";
 					write_reviews_to_html(svr.search_all_reviews(search_term), filename);
 					break;
