@@ -4,6 +4,7 @@
 *.app
 go*
 add*
+MovieReviewApp
 
 # Everything in the build directory
 build
