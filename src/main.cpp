@@ -27,7 +27,7 @@
 		* //TODO: logout
 		* //TODO: sign up
 		* //TODO: write a review
-		* TODO: update a review
+		* //TODO: update a review
 		* TODO: look up reviews in database
 			* TODO: all (no order)
 			* TODO: sort by date written
@@ -327,7 +327,7 @@ int main () {
 			vector<unordered_map<string, string>> results;
 			try {
 				results = svr.search_your_reviews(search_term);
-				// No search results
+				// If no search results
 				if (results.size() <= 0) {
 					cout << "There were no results for your search. Perhaps it was misspelled?\n";
 					continue;

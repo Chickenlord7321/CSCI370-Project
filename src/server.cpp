@@ -47,7 +47,11 @@ Server::Server() {
 						" AND user_id = :u_id"
 						" ORDER BY title DESC";
 	find_review_sql = "SELECT review_id FROM Reviews WHERE user_id = :u_id AND movie_id = :m_id";
-	search_movies_sql = "SELECT * FROM Movies WHERE LOWER(title) LIKE LOWER(:search_term) ORDER BY movie_id DESC";
+	search_movies_sql = "SELECT * "
+						" FROM Movies"
+						" WHERE LOWER(title) LIKE LOWER(:search_term) "
+						" AND LOWER(overview) LIKE LOWER(:search_term)"
+						" ORDER BY movie_id DESC";
 
 	// Set statements to null
 	get_user_id_query = nullptr;
@@ -291,6 +295,7 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 	}
 	string match = "%" + search_term + "%";
 	search_movies_query->setString(1, match);
+	search_movies_query->setString(2, match);
 	ResultSet* result = search_movies_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
 	search_movies_query->closeResultSet(result);
