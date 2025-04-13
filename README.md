@@ -1,4 +1,4 @@
-# CSCI370-Project
+# Movie Review App
 Database project for CSCI 370
 
 ## Setup Process
@@ -7,28 +7,24 @@ Database project for CSCI 370
 
 - `git clone https://github.com/Chickenlord7321/CSCI370-Project.git`
 
-### Step 2: Install Asio
+### Step 2: CMake
 
-**On Ubuntu:**
-- `sudo apt-get install libasio-dev`
+- Create a build directory with `mkdir build`
 
-**On Other OSes:**
+- Navigate to the build directory and run cmake with `cd build/; cmake ..`
 
-https://app.studyraid.com/en/read/12426/401280/installing-and-configuring-asio-library
+## Step 3: Make
 
-### Step 3: Build Crow Environment
+- From within /build, run `make` to create an executable named `MovieReviewApp`
 
-- Navigate to the "Crow" directory, which is located at the root level of the project
+## Step 4: Run the Project
 
-- Run `mkdir build; cd build`
+- Navigate back up to the root directory: `cd ../`
 
-- Run `cmake .. -DCROW_BUILD_EXAMPLES=OFF -DCROW_BUILD_TESTS=OFF` from within the Crow/build directory. 
-(You can ignore the `-DCROW...` options and just run `cmake ..` if you want to build the examples and unit tests)
+- Type `./MovieReviewApp` to run the program!
 
-- Finally, run `sudo make install`
+## How to copy the HTML files to your machine:
 
-### Step 4: Compilation
+All HTML output files are located under the `Output/` directory.
 
-- Navigate to the "source" directory
-
-- Run `make`
+Follow Dave's steps for copying files with scp: http://csci.viu.ca/~wesselsd/technotes.html#TransferFromHome

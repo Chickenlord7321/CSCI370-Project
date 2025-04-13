@@ -1,5 +1,5 @@
 # Author: Caleb Bronn
-# Last Update: 10 Apr 2025
+# Last Update: 13 Apr 2025
 
 GXX = g++-4.9 -std=c++11	# allows us to use C++11 methods like Regex
 CFLAGS = -I/usr/local/lib/Oracle/instantclient_11_2/sdk/include
@@ -16,4 +16,4 @@ server.o: server.cpp
 	$(GXX) -c $(CFLAGS) server.cpp -o server.o
 
 clean:
-	rm -f *.o go*
+	rm -f *.o MovieReviewApp
