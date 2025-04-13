@@ -5,9 +5,9 @@ GXX = g++-4.9 -std=c++11	# allows us to use C++11 methods like Regex
 CFLAGS = -I/usr/local/lib/Oracle/instantclient_11_2/sdk/include
 LFLAGS = -L/usr/local/lib/Oracle/instantclient_11_2 -locci -lociei
 
-go: main.o
-	$(GXX) $(LFLAGS) -o ../go main.o server.o
-	@echo "Ready to go!"
+MovieReviewApp: main.o
+	$(GXX) $(LFLAGS) -o ../MovieReviewApp main.o server.o
+	@echo "Movie Review App ready to go!"
 
 main.o: main.cpp server.o
 	$(GXX) -c $(CFLAGS) main.cpp -o main.o

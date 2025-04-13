@@ -216,7 +216,7 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 	string file_path = "../Output/" + filename;
 	file.open(file_path);
 	if (!file.is_open() || file.fail()) {
-		cout << "File did not open\n";
+		cout << "Could not open file\n";
 	}
 	file << HTML_HEADER;
 	for (int i = 0; i < results.size(); i++) {
@@ -227,6 +227,27 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 			<< "<p class='score'>" << results.at(i).at("user_avg_score") << "</p>"
 			<< "<p class='score'>" << results.at(i).at("tmdb_score") << "</p>"
 			<< "<p class='review'>" << results.at(i).at("review_text") << "</p>"
+			<< "<img src='" << results.at(i).at("poster_path") << "'>";
+	}
+	file << HTML_CLOSE;
+	file.close();
+}
+
+void write_movies_to_html(vector<unordered_map<string, string>> results, const string filename) {
+	ofstream file;
+	string file_path = "../Output/" + filename;
+	file.open(file_path);
+	if (!file.is_open() || file.fail()) {
+		cout << "Could not open file\n";
+	}
+	file << HTML_HEADER;
+	for (int i = 0; i < results.size(); i++) {
+		file << "<h2 class='title'>" << results.at(i).at("title") << "</h2>"
+			<< "<h3 class='date'>" << results.at(i).at("release_date") << "</h3>"
+			<< "<h3 class='original_lang'>" << results.at(i).at("lang") << "</h3>"
+			<< "<p class='score'>" << results.at(i).at("user_avg_score") << "</p>"
+			<< "<p class='score'>" << results.at(i).at("tmdb_score") << "</p>"
+			<< "<p class='overview'>" << results.at(i).at("overview") << "</p>"
 			<< "<img src='" << results.at(i).at("poster_path") << "'>";
 	}
 	file << HTML_CLOSE;
@@ -401,25 +422,25 @@ int main () {
 		//# LOOK UP REVIEWS
 		else if (command == 6) {
 			cout << "Select one of the following options by number:\n"
-				<< "\t1: all reviews\n"
-				<< "\t2: recent reviews\n"
-				<< "\t3: written by you\n"
-				<< "\t4: having minimum/maximum stars\n"
-				<< "\t5: by search term\n";
+				<< "\t1: view all reviews\n"
+				<< "\t2: view reviews written by you\n"
+				<< "\t3: view reviews by search term\n";
 			int option = input_int("> ", 1, 5);
 			string filename;
 			switch (option) {
 				case 1:
-					filename = "all.txt";
+					filename = "all.html";
 					write_reviews_to_html(svr.list_all_reviews(), filename);
 					break;
 				case 2:
+					string search_term = input_str("Enter your search term:\n> ");
+					filename = "your_reviews.html";
+					write_reviews_to_html(svr.search_your_reviews(search_term));
 					break;
 				case 3:
-					break;
-				case 4:
-					break;
-				case 5:
+					string search_term = input_str("Enter your search term:\n> ");
+					filename = search_term + ".html";
+					write_reviews_to_html(svr.search_all_reviews(search_term));
 					break;
 			}
 			cout << "Output written to: Output/" << filename

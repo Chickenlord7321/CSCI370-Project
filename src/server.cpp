@@ -46,21 +46,33 @@ Server::Server() {
 						" OR LOWER(review_text) LIKE LOWER(:search_term) )"
 						" AND user_id = :u_id"
 						" ORDER BY title DESC";
+	search_all_reviews_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, poster_path, username"
+						" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id) JOIN Users U ON (U.user_id = R.user_id)"
+						" WHERE LOWER(title) LIKE LOWER(:search_term)"
+						" OR LOWER(review_text) LIKE LOWER(:search_term)"
+						" ORDER BY title DESC";
 	find_review_sql = "SELECT review_id FROM Reviews WHERE user_id = :u_id AND movie_id = :m_id";
 	search_movies_sql = "SELECT * "
 						" FROM Movies"
 						" WHERE LOWER(title) LIKE LOWER(:search_term) "
 						" OR LOWER(overview) LIKE LOWER(:search_term)"
 						" ORDER BY title DESC";
+	update_avg_score_sql = "UPDATE Movies M"
+						" SET user_avg_score = ("
+						" SELECT AVG(your_score) FROM Reviews R"
+						" WHERE M.movie_id = R.movie_id)"
+						" WHERE M.movie_id = :m_id";
 
 	// Set statements to null
 	get_user_id_query = nullptr;
 	signup_query = nullptr;
 	submit_review_query = nullptr;
 	update_review_query = nullptr;
-	search_your_reviews_query= nullptr;
+	search_your_reviews_query = nullptr;
+	search_all_reviews_query = nullptr;
 	find_review_query = nullptr;
 	search_movies_query = nullptr;
+	update_avg_score_query = nullptr;
 }
 
 // Destructor
@@ -74,8 +86,10 @@ Server::~Server() {
 		conn->terminateStatement(submit_review_query);
 		conn->terminateStatement(update_review_query);
 		conn->terminateStatement(search_your_reviews_query);
+		conn->terminateStatement(search_all_reviews_query);
 		conn->terminateStatement(find_review_query);
 		conn->terminateStatement(search_movies_query);
+		conn->terminateStatement(update_avg_score_query);
 		env->terminateConnection(conn);
 	}
 	Environment::terminateEnvironment(env);
@@ -99,6 +113,13 @@ int Server::get_next_review_id() {
 	ResultSet* next_id_rs = next_id_query->executeQuery();
 	next_id_rs->next();
 	return next_id_rs->getInt(1);
+}
+
+void Server::update_avg_score(const int movie_id) {
+	update_avg_score_query->setInt(1, movie_id);
+	if (update_avg_score_query->executeUpdate()) {
+		conn->commit();
+	}
 }
 
 
@@ -165,8 +186,10 @@ bool Server::connect(const string username, const string password) {
 		submit_review_query = conn->createStatement(submit_review_sql);
 		update_review_query = conn->createStatement(update_review_sql);
 		search_your_reviews_query = conn->createStatement(search_your_reviews_sql);
+		search_all_reviews_query = conn->createStatement(search_all_reviews_sql);
 		find_review_query = conn->createStatement(find_review_sql);
 		search_movies_query = conn->createStatement(search_movies_sql);
+		update_avg_score_query = conn->createStatement(update_avg_score_sql);
 
 		return true;	// successful connection
 	} catch (SQLException & error) {
@@ -254,6 +277,7 @@ bool Server::submit_review(const int movie_id, const string review, const double
 	if (submit_review_query->executeUpdate()) {
 		conn->commit();
 		next_review_id++;
+		update_avg_score(movie_id);
 	}
 	return true;
 }
@@ -269,6 +293,7 @@ bool Server::update_review(const string review_id, const string review, const do
 	update_review_query->setString(3, review_id);
 	if (update_review_query->executeUpdate()) {
 		conn->commit();
+		update_avg_score(movie_id);
 	}
 	return true;
 }
@@ -318,6 +343,20 @@ vector<unordered_map<string, string>> Server::search_your_reviews(const string s
 	search_your_reviews_query->closeResultSet(result);
 	return search_result;
 }
+
+
+//! SEARCH ALL REVIEWS BY SEARCH TERM
+vector<unordered_map<string, string>> Server::search_all_reviews(const string search_term) {
+	string match = "%" + search_term + "%";
+	search_all_reviews_query->setString(1, match);
+	search_all_reviews_query->setString(2, match);
+	ResultSet* result = search_all_reviews_query->executeQuery();
+	vector<unordered_map<string, string>> search_result = list_reviews(result);
+	search_all_reviews_query->closeResultSet(result);
+	return search_result;
+}
+
+
 
 vector<unordered_map<string, string>> Server::list_all_reviews() {
 	string sql = "SELECT review_id, R.user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score, poster_path, username"
