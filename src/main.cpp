@@ -291,9 +291,11 @@ int main () {
 				option = input_int("Type 1 to submit your review from a text file, or 2 to write the review in this window.\n> ", 1, 2);
 				if (option == 1) {
 					review = write_review_from_file();
+					break;
 				} 
 				else {
 					review = write_review_in_terminal();
+					break;
 				}
 			} while (option != 1 && option != 2);
 
