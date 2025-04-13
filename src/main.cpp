@@ -230,7 +230,7 @@ int main () {
 					<< "\t" << results.at(i).at("title") << endl
 					<< "\t" << results.at(i).at("release_date") << endl;
 			}
-			int num = input_int("Select one of the results by number\n> ");
+			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
 
 			double score = input_double("Give the movie a score out of 10\n> ", 0.0, 10.0);
 			// do {
