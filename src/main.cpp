@@ -409,7 +409,7 @@ int main () {
 			string filename;
 			switch (option) {
 				case 1:
-					filename = "all.html";
+					filename = "all.txt";
 					write_reviews_to_html(svr.list_all_reviews(), filename);
 					break;
 				case 2:
