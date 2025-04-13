@@ -226,11 +226,11 @@ void write_reviews_to_html(vector<unordered_map<string, string>> results, const 
 			<< "<h3 class='date'>Written: " << results.at(i).at("written") << "</h3>\n"
 			<< "<h3 class='author'>By: " << results.at(i).at("username") << "</h3>\n"
 			<< "<div class='score'>\n"
-			<< "<p>Your Score: " << results.at(i).at("your_score") << "</p>\n"
+			<< "<p>User's Score: " << results.at(i).at("your_score") << "</p>\n"
 			<< "<p>Score on Movie Review App: " << results.at(i).at("user_avg_score") << "</p>\n"
 			<< "<p>TMDB Score: " << results.at(i).at("tmdb_score") << "</p>\n"
 			<< "</div>\n"
-			<< "<p class='review'>" << results.at(i).at("review_text") << "</p>\n"
+			<< "<q class='review'>" << results.at(i).at("review_text") << "</q>\n"
 			<< "<img src='" << results.at(i).at("poster_path") << "'>\n"
 			<< "</div>\n";
 	}
@@ -253,7 +253,7 @@ void write_movies_to_html(vector<unordered_map<string, string>> results, const s
 			<< "<h3 class='date'>Release Date: " << results.at(i).at("release_date") << "</h3>\n"
 			<< "<h3 class='original_lang'>Original Language: " << results.at(i).at("lang") << "</h3>\n"
 			<< "<div class='score'>\n"
-			<< "<p>Score on Movie Review App:" << results.at(i).at("user_avg_score") << "</p>\n"
+			<< "<p>Score on Movie Review App: " << results.at(i).at("user_avg_score") << "</p>\n"
 			<< "<p>TMDB Score: " << results.at(i).at("tmdb_score") << "</p>\n"
 			<< "</div>\n"
 			<< "<p class='overview'>" << results.at(i).at("overview") << "</p>\n"
@@ -406,7 +406,7 @@ int main () {
 			for (int i = 0; i < results.size(); i++) {
 				cout << i << "\n" 
 					<< "\tMovie Title: " << results.at(i).at("title") << endl
-					<< "\tYour Score: " << results.at(i).at("your_score") << endl
+					<< "\tUser's Score: " << results.at(i).at("your_score") << endl
 					<< "\tYour Review: \n" << results.at(i).at("review_text") << endl;
 			}
 			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
