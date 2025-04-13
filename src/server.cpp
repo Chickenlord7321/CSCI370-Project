@@ -30,16 +30,22 @@ Server::Server() {
 						" :review_id,"
 						" :user_id,"
 						" :movie_id,"
-						" :review_text,"
+						" :r_text,"
 						" :your_score,"
 						" CURRENT_DATE,"
 						" CURRENT_DATE"
 						")";
+	update_review_sql = "UPDATE Reviews"
+						" SET review_text = :r_text,"
+						" your_score = :your_score,"
+						" last_update = CURRENT_DATE"
+						" WHERE review_id = :review_id";
 
 	// Set statements to null
 	get_user_id_query = nullptr;
 	signup_query = nullptr;
 	submit_review_query = nullptr;
+	update_review_query = nullptr;
 }
 
 // Destructor
@@ -76,6 +82,23 @@ int Server::get_next_review_id() {
 	return next_id_rs->getInt(1);
 }
 
+
+string Server::find_review_by_curr_user(const int movie_id) const {
+	if (curr_user == "") {
+		return "";
+	}
+
+	string sql = "SELECT review_id FROM Reviews WHERE user_id = '" + curr_user 
+				+ "' AND movie_id = " + to_string(movie_id);
+	Statement* query = conn->createStatement(sql);
+	ResultSet* result = query->executeQuery();
+	if (result->next()) {
+		return result->getString(1);
+	}
+	return "";
+}
+
+
 vector<unordered_map<string, string>> Server::list_movies(ResultSet* result) {
 	vector<unordered_map<string, string>> data;
 	while (result->next()) {
@@ -94,6 +117,28 @@ vector<unordered_map<string, string>> Server::list_movies(ResultSet* result) {
 	}
 	return data;
 }
+
+
+vector<unordered_map<string, string>> Server::list_reviews(ResultSet* result) {
+	vector<unordered_map<string, string>> data;
+	while (result->next()) {
+		unordered_map<string, string> entry = {
+			{"review_id", result->getString(1)},
+			{"user_id", result->getString(2)},
+			{"movie_id", result->getString(3)},
+			{"review_text", result->getString(4)},
+			{"your_score", result->getString(5)},
+			{"written", result->getString(6)},
+			{"last_update", result->getString(7)},
+			{"title", result->getString(8)},
+			{"tmdb_score", result->getString(9)},
+			{"user_avg_score", result->getString(10)}
+		};
+		data.push_back(entry);
+	}
+	return data;
+}
+
 
 /***************************
  * PUBLIC SERVER FUNCTIONS *
@@ -182,8 +227,12 @@ bool Server::signup_successful(const string username, const string password) {
 
 
 bool Server::submit_review(const int movie_id, const string review, const double score) {
-	if (curr_user == "") {	//! or current user has already written a review for this film
+	if (curr_user == "") {
 		cout << "\nYou are not logged in. Please login first.\n";
+		return false;
+	} 
+	else if (find_review_by_curr_user(movie_id) == "") {
+		cout << "\nYou have already written a review for this movie.\n";
 		return false;
 	}
 	string rid = to_string(next_review_id);
@@ -201,6 +250,9 @@ bool Server::submit_review(const int movie_id, const string review, const double
 }
 
 
+bool Server::update_review(const string review, const double score) {}
+
+
 vector<unordered_map<string, string>> Server::search_movies(const string search_term) {
 	if (curr_user == "") {
 		throw ServerException("search_movies", "user not logged in");
@@ -210,6 +262,25 @@ vector<unordered_map<string, string>> Server::search_movies(const string search_
 	Statement* search_query = conn->createStatement(search_sql);
 	ResultSet* result = search_query->executeQuery();
 	vector<unordered_map<string, string>> search_result = list_movies(result);
+	search_query->closeResultSet(result);
+	conn->terminateStatement(search_query);
+	return search_result;
+}
+
+
+vector<unordered_map<string, string>> Server::search_your_reviews(const string search_term) {
+	if (curr_user == "") {
+		throw ServerException("search_your_reviews", "user not logged in");
+	}
+	string search_sql = "SELECT review_id, user_id, R.movie_id, review_text, your_score, written, last_update, title, tmdb_score, user_avg_score"
+						" FROM Movies M JOIN Reviews R ON (M.movie_id = R.movie_id)"
+						" WHERE LOWER(title) LIKE LOWER('%" 
+						+ search_term + "%') OR LOWER(review_text) LIKE LOWER('%" 
+						+ search_term + "%') AND user_id = '" + curr_user + "'"
+						" ORDER BY movie_id DESC";
+	Statement* search_query = conn->createStatement(search_sql);
+	ResultSet* result = search_query->executeQuery();
+	vector<unordered_map<string, string>> search_result = list_reviews(result);
 	search_query->closeResultSet(result);
 	conn->terminateStatement(search_query);
 	return search_result;

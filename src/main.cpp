@@ -26,7 +26,7 @@
 		* //TODO: login
 		* //TODO: logout
 		* //TODO: sign up
-		* TODO: write a review
+		* //TODO: write a review
 		* TODO: update a review
 		* TODO: look up reviews in database
 			* TODO: all (no order)
@@ -173,8 +173,9 @@ string write_review_from_file() {
 		}
 	} while (!review_file.is_open());
 
+	// Dump contents of file into this string.
 	string new_review;
-	getline(review_file, new_review, static_cast<char>(EOF));
+	getline(review_file, new_review, static_cast<char>(EOF));	// EOF is End Of File
 	return new_review;
 }
 
@@ -183,13 +184,14 @@ string write_review_in_terminal(const string original_review = "") {
 		cout << "Here is your original review:\n";
 		cout << original_review << endl << endl;
 	}
-	cout << "Write your review here. Press Enter and then CTRL + D (or CTRL + Z on Windows) to end the review:\n";
+	cout << "Write your review here. Press Enter twice to end the review:\n";
 
-	// I found out how to get multi-line inputs from this Stack Overflow post:
-	// https://stackoverflow.com/questions/63835061/how-to-take-multiple-line-string-input-in-c
+	// Here we get use a while loop to get multiple lines of input. I struggled with this a lot,
+	// why on earth does cin have to be such a bitch.....
+	// Anyway, the code is based on this GeeksForGeeks article:
+	// https://www.geeksforgeeks.org/take-multiple-line-string-input-in-cpp/
 	string new_review;
 	string line;
-	// getline(review_file, new_review, static_cast<char>(EOF));
 	while (getline(cin, line)) {
 		if (line.empty()) {
 			break;
@@ -271,22 +273,25 @@ int main () {
 			// Step 1: search for a movie to review
 			string movie_name = input_str("Search for a movie to review\n> ");
 			vector<unordered_map<string, string>> results;
-			// Catch exception in case user is not logged in
 			try {
 				results = svr.search_movies(movie_name);
+				// No search results
 				if (results.size() <= 0) {
 					cout << "There were no results for your search. Perhaps it was misspelled?\n";
 					continue;
 				}
-			} catch (ServerException& e) {
+			} 
+			// User was not logged in
+			catch (ServerException& e) {
 				cout << "Sorry, please log in first.\n";
 				continue;
 			}
+
 			// Print out all movies that match the search term
 			for (int i = 0; i < results.size(); i++) {
 				cout << i << "\n" 
-					<< "\t" << results.at(i).at("title") << endl
-					<< "\t" << results.at(i).at("release_date") << endl;
+					<< "\tMoive Title: " << results.at(i).at("title") << endl
+					<< "\tRelease Date: " << results.at(i).at("release_date") << endl;
 			}
 			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
 
@@ -296,23 +301,52 @@ int main () {
 			// Step 3: write and submit review
 			int option;
 			string review;
-			do {
-				option = input_int("Type 1 to submit your review from a text file, or 2 to write the review in this window.\n> ", 1, 2);
-				if (option == 1) {
-					review = write_review_from_file();
-				} 
-				else {
-					review = write_review_in_terminal();
-				}
-			} while (option != 1 && option != 2);
+			option = input_int("Type 1 to submit your review from a text file, or 2 to write the review in this window.\n> ", 1, 2);
+			if (option == 1) {
+				review = write_review_from_file();
+			} 
+			else {
+				review = write_review_in_terminal();
+			}
 
-			int mid = stoi(results.at(num).at("movie_id"));
-			svr.submit_review(mid, review, score);
+			// Submit review. If user has already written a review for this movie, ask them if they want to update their review instead.
+			int movie_id = stoi(results.at(num).at("movie_id"));
+			if (!svr.submit_review(movie_id, review, score)) {
+				string update_instead = to_lower(input_str("Would you like to update your review instead? Y/N\n> "));
+				if (update_instead == "y" || update_instead == "yes") {
+					// update review
+				}
+			}
+
+			cout << "Thank you for uploading a review!\n";
 		}
 
 		//# UPDATE A REVIEW
 		else if (command == 5) {
-			cout << "update a review\n";
+			string search_term = input_str("Search your reviews by movie title or phrase\n> ");
+			vector<unordered_map<string, string>> results;
+			try {
+				results = svr.search_your_reviews(search_term);
+				// No search results
+				if (results.size() <= 0) {
+					cout << "There were no results for your search. Perhaps it was misspelled?\n";
+					continue;
+				}
+			} 
+			// User was not logged in
+			catch (ServerException& e) {
+				cout << "Sorry, please log in first.\n";
+				continue;
+			}
+
+			// Print out all reviews that match the search term
+			for (int i = 0; i < results.size(); i++) {
+				cout << i << "\n" 
+					<< "\tMovie Title: " << results.at(i).at("title") << endl
+					<< "\tYour Score: " << results.at(i).at("your_score") << endl;
+					<< "\tYour Review: " << results.at(i).at("review_text") << endl;
+			}
+			int num = input_int("Select one of the results by number\n> ", 0, results.size() - 1);
 		}
 		//# LOOK UP REVIEWS
 		else if (command == 6) {

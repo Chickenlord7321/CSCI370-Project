@@ -85,14 +85,18 @@ private:
 	string get_user_id_sql;
 	string signup_sql;
 	string submit_review_sql;
+	string update_review_sql;
 
 	// Query statements
 	Statement* get_user_id_query;
 	Statement* signup_query;
 	Statement* submit_review_query;
+	Statement* update_review_query;
 
 	int get_next_user_id();
 	int get_next_review_id();
+
+	string find_review_by_curr_user(const int movie_id) const;
 
 	// List all data from movie result set
 	vector<unordered_map<string, string>> list_movies(ResultSet* result);
@@ -118,10 +122,12 @@ public:
 
 	bool submit_review(const int movie_id, const string review, const double score);
 
-	// void update_review(const string review);
+	bool update_review(const string review, const double score);
 
 	// Find movies by search term
 	vector<unordered_map<string, string>> search_movies(const string search_term);
+
+	vector<unordered_map<string, string>> search_your_reviews(const string search_term);
 
 	// vector<unordered_map<string, string>> list_reviews_by_rating(const string op, const double rating, const string sort="ASC");
 
