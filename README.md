@@ -11,12 +11,18 @@ Database project for CSCI 370
 
 Use the SQL statements in [database_design.md](./Docs/database_design.md) to create three tables: Users, Movies, and Reviews.
 
+You can then populate the tables with the sample data found under `Data/`. There are three files there for each of the tables:
+
+- [Users](./Data/sampleUsers.sql)
+- [Movies](./Data/sampleMovies.sql)
+- [Reviews](./Data/sampleReviews.sql)
+
 ### Step 3: Run the Project
 - Navigate to src/ with `cd src/`.
 
 - Run `make` to create an executable called 'MovieReviewApp' at the root level.
 
-- Navigate back up to the root directory: `cd ../`
+- Navigate back up to the root directory: `cd ../` (this is important because when the program attempts to create files, they are created using relative file paths that assume you are working from the project root directory).
 
 - Type `./MovieReviewApp` to run the program!
 
