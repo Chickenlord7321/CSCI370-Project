@@ -16,4 +16,4 @@ server.o: server.cpp
 	$(GXX) -c $(CFLAGS) server.cpp -o server.o
 
 clean:
-	rm -f *.o MovieReviewApp
+	rm -f *.o ../MovieReviewApp
